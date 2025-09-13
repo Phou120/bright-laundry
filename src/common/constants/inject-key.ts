@@ -4,3 +4,34 @@ export const TRANSACTION_MANAGER_SERVICE = Symbol(
   'TRANSACTION_MANAGER_SERVICE',
 );
 export const TRANSFORM_RESULT_SERVICE = Symbol('TRANSFORM_RESULT_SERVICE');
+
+export const IMAGE_FOLDER = process.env.IMAGE_FOLDER || 'uploads';
+export const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+export const IMAGE_ALLOW_MIME_TYPE = [
+  'image/png',
+  'image/jpg',
+  'image/jpeg',
+  'image/gif',
+  'image/webp',
+];
+
+export const USER_PROFILE_IMAGE_FILE_OPTIMIZE_SERVICE_KEY = Symbol(
+  'USER_PROFILE_IMAGE_FILE_OPTIMIZE_SERVICE_KEY',
+);
+
+export const JWT_SERVICE = Symbol('JWT_SERVICE');
+
+export const AUTH_SERVICE = Symbol('AUTH_SERVICE');
+export const WRITE_AUTH_REPOSITORY = Symbol('WRITE_AUTH_REPOSITORY');
+export const READ_AUTH_REPOSITORY = Symbol('READ_AUTH_REPOSITORY');
+
+export const USER_SERVICE = Symbol('USER_SERVICE');
+export const WRITE_USER_REPOSITORY = Symbol('WRITE_USER_REPOSITORY');
+export const READ_USER_REPOSITORY = Symbol('READ_USER_REPOSITORY');
+
+export const ROLE_SERVICE = Symbol('ROLE_SERVICE');
+export const WRITE_ROLE_REPOSITORY = Symbol('WRITE_ROLE_REPOSITORY');
+export const READ_ROLE_REPOSITORY = Symbol('READ_ROLE_REPOSITORY');
+
+export const PERMISSION_SERVICE = Symbol('PERMISSION_SERVICE');
+export const READ_PERMISSION_REPOSITORY = Symbol('READ_PERMISSION_REPOSITORY');

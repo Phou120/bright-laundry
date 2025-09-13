@@ -1,0 +1,81 @@
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CreateCommand } from '../create.command';
+import {
+  TRANSACTION_MANAGER_SERVICE,
+  WRITE_USER_REPOSITORY,
+} from '@src/common/constants/inject-key';
+import { Inject } from '@nestjs/common';
+import { IWriteUserRepository } from '../../interfaces/repository.interface';
+import { UserOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user.orm';
+import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
+import { hashPassword } from '@src/common/utils/hash-password';
+import { ITransactionManagerService } from '@src/common/infrastructure/transaction/transaction.interface';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import { findOneOrFail } from '@src/common/utils/fine-one-orm.utils';
+import { RoleOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/role.orm';
+import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/permission.orm';
+import { _checkColumnDuplicate } from '@src/common/utils/check-column-duplicate-orm.util';
+
+@CommandHandler(CreateCommand)
+export class CreateHandler implements ICommandHandler<CreateCommand, any> {
+  constructor(
+    @Inject(WRITE_USER_REPOSITORY)
+    private readonly _write: IWriteUserRepository,
+    @Inject(TRANSACTION_MANAGER_SERVICE)
+    private readonly _transactionManagerService: ITransactionManagerService,
+    @InjectDataSource(process.env.WRITE_CONNECTION_NAME)
+    private readonly _dataSource: DataSource,
+  ) {}
+
+  async execute(
+    command: CreateCommand,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._transactionManagerService.runInTransaction(
+      this._dataSource,
+      async (manager) => {
+        await _checkColumnDuplicate(
+          UserOrmEntity,
+          'email',
+          command.body.email,
+          manager,
+          'errors.email_already_exists',
+        );
+
+        await _checkColumnDuplicate(
+          UserOrmEntity,
+          'tel',
+          command.body.tel,
+          manager,
+          'errors.tel_already_exists',
+        );
+
+        for (const role of command.body.roles) {
+          await findOneOrFail(
+            manager,
+            RoleOrmEntity,
+            {
+              id: role,
+            },
+            `Role ${role}`,
+          );
+        }
+
+        for (const permission of command.body.permissions) {
+          await findOneOrFail(
+            manager,
+            PermissionOrmEntity,
+            {
+              id: permission,
+            },
+            `Permission ${permission}`,
+          );
+        }
+
+        const password = await hashPassword(command.body.password);
+        const user = await this._write.create(command.body, password, manager);
+        return user;
+      },
+    );
+  }
+}

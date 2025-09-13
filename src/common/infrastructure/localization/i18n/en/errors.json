@@ -46,5 +46,19 @@
     "verified": "The item is already verified",
     "pending": "The item is pending",
     "rejected": "The item is already rejected"
-  }
+  },
+  "auth": {
+    "invalid_token": "Invalid token",
+    "token_expired": "Token has expired",
+    "no_token_provided": "No token provided",
+    "invalid_credentials": "Invalid Credentials",
+    "user_logged_out": "User has logged out",
+    "login_first": "Please login first"
+  },
+  "id_must_be_number": "{property} must be a number",
+  "missing_or_invalid_authorization_header": "Missing or invalid Authorization header",
+  "invalid_image": "Invalid image file",
+  "invalid_image_format": "Invalid image format",
+  "failed_to_optimize_image": "Failed to optimize image to <= 1MB",
+  "cannot_reduce_image": "Cannot reduce image below 1MB"
 }

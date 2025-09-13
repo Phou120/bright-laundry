@@ -9,6 +9,7 @@ import { MailModule } from '@common/infrastructure/mailer/module/mailer.module';
 import { I18nModule } from '@common/infrastructure/localization/localization.module';
 import { TypeOrmRepositoryModule } from '@common/infrastructure/database/typrorm.module';
 import { PaginationModule } from '@common/infrastructure/pagination/pagination.module';
+import { AmazonS3Module } from './infrastructure/aws3/config/aws3.module';
 
 @Global()
 @Module({
@@ -19,6 +20,7 @@ import { PaginationModule } from '@common/infrastructure/pagination/pagination.m
     }),
     MailModule,
     I18nModule,
+    AmazonS3Module.forRootAsync(),
     TypeOrmRepositoryModule,
     PaginationModule,
   ],

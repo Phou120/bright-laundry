@@ -64,3 +64,12 @@ export interface IPaginationService {
     filterOptions?: FilterOptions,
   ): Promise<PaginatedResult<Entity> | Entity[]>;
 }
+
+// export interface IPaginationService {
+//   paginate<TOrm extends ObjectLiteral, TEntity = TOrm>(
+//     qb: SelectQueryBuilder<TOrm>,
+//     input: PaginationInput,
+//     mapper: (item: TOrm) => TEntity,
+//     filterOptions?: FilterOptions,
+//   ): Promise<ResponseResult<TEntity> | TEntity[]>;
+// }

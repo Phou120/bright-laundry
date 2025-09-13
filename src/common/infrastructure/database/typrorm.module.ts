@@ -2,6 +2,13 @@ import { entities } from './index';
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HelperSeeder } from './typeorms/seeders/helper.seeder';
+import { UsersSeeder } from './typeorms/seeders/user.seed';
+import { SeederService } from './typeorms/seeders/services/seeder.service';
+import { TransactionModule } from '../transaction/transaction.module';
+import { RoleSeeder } from './typeorms/seeders/role.seed';
+import { PermissionGroupSeeder } from './typeorms/seeders/permission-group.seeder';
+import { PermissionSeeder } from './typeorms/seeders/permission.seeder';
 
 @Global()
 @Module({
@@ -10,6 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    TransactionModule,
     TypeOrmModule.forRootAsync({
       name: process.env.WRITE_CONNECTION_NAME,
       inject: [ConfigService],
@@ -49,6 +57,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TypeOrmModule.forFeature([...entities]), // ຖ້າບໍ່ໃຊ້ອັນນີ້ຈະບໍ່ສາມາດເອີ້ນໃຊ້ Repository<User>
   ],
   exports: [TypeOrmModule],
-  providers: [],
+  providers: [
+    SeederService,
+    HelperSeeder,
+    RoleSeeder,
+    UsersSeeder,
+    PermissionGroupSeeder,
+    PermissionSeeder,
+  ],
 })
 export class TypeOrmRepositoryModule {}

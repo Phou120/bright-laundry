@@ -1,0 +1,39 @@
+import { UserOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user.orm';
+import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
+import { EntityManager } from 'typeorm';
+import { CreateDto } from '../dtos/create.dto';
+import { UserQueryDto } from '../dtos/query/query.dto';
+import { UpdateDto } from '../dtos/update.dto';
+import { AuthDto } from '../auth/dtos/auth.dto';
+
+export interface IWriteUserRepository {
+  create(
+    body: CreateDto,
+    password: string,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
+  update(
+    id: number,
+    body: UpdateDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
+  delete(id: number, manager: EntityManager): Promise<void>;
+}
+
+export interface IReadUserRepository {
+  getAll(
+    query: UserQueryDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
+  getOne(
+    id: number,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
+  signIn(body: AuthDto, manager?: EntityManager): Promise<string>;
+
+  getUser(id: number): Promise<UserOrmEntity | null>;
+}

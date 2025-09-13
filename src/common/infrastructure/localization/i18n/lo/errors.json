@@ -46,5 +46,19 @@
     "verified": "ລາຍການນີ້ ໄດ້ຮັບການຢືນຢັນເເລ້ວ",
     "pending": "ລາຍການນີ້ ຍັງລໍຖ້າຢືນຢັນ",
     "rejected": "ລາຍການນີ້ ຖືກປະຕິເສດເເລ້ວ"
-  }
+  },
+  "auth": {
+    "invalid_token": "ໂທເຄັນບໍ່ຖືກຕ້ອງ",
+    "token_expired": "ໂທເຄັນໝົດອາຍຸແລ້ວ",
+    "no_token_provided": "ບໍ່ມີໂທເຄັນ",
+    "invalid_credentials": "ຂໍ້ມູນປະຈຳຕົວບໍ່ຖືກຕ້ອງ",
+    "user_logged_out": "ຜູ້ໃຊ້ອອກຈາກລະບົບແລ້ວ",
+    "login_first": "ກະລຸນາເຂົ້າສູ່ລະບົບກ່ອນ"
+  },
+  "id_must_be_number": "{property} ຕ້ອງເປັນຕົວເລກ",
+  "missing_or_invalid_authorization_header": "ກະລຸນາໃສ່ token ໃນ Authorization header",
+  "invalid_image": "ໄຟລຮູບພາບບໍ່ຖືກຕ້ອງ",
+  "invalid_image_format": "ຮູບແບບຂອງຮູບພາບບໍ່ຖືກຕ້ອງ",
+  "failed_to_optimize_image": "ບໍ່ສາມາດປັບປຸງຮູບພາບໃຫ້ <= 1MB",
+  "cannot_reduce_image": "ບໍ່ສາມາດປັບປຸງຮູບພາບໃຫ້ນ້ອຍກວ່າ 1MB"
 }
