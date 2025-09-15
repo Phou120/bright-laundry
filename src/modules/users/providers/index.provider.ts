@@ -21,6 +21,7 @@ import { PermissionService } from '../services/permission.service';
 import { ReadPermissionRepository } from '../repositories/permission/read.repo';
 import { WriteRoleRepository } from '../repositories/role/write.repo';
 import { ReadRoleRepository } from '../repositories/role/read.repo';
+// import { QueueService } from '@src/common/infrastructure/queue/queue.service';
 
 export const userProvider: Provider[] = [
   ...commandProviders,
@@ -56,6 +57,10 @@ export const userProvider: Provider[] = [
   {
     provide: WRITE_ROLE_REPOSITORY,
     useClass: WriteRoleRepository,
+  },
+  {
+    provide: READ_ROLE_REPOSITORY,
+    useClass: ReadRoleRepository,
   },
   {
     provide: READ_ROLE_REPOSITORY,

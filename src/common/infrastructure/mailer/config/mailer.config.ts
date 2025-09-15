@@ -17,7 +17,7 @@ export const MailerConfig = (config: ConfigService): MailerOptions => {
       },
     },
     defaults: {
-      from: `"HAL ERP" <${config.get('MAIL_FROM')}>`,
+      from: `"E-COMMERCE" <${config.get('MAIL_FROM')}>`,
     },
     template: {
       dir: templatePath,

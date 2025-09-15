@@ -31,6 +31,9 @@ import { FileMimeTypeValidator } from '@src/common/validations/file-mime-type.va
 import { FileSizeValidator } from '@src/common/validations/file-size.validator';
 import { UploadDto } from '../dtos/upload.dto';
 import { UploadMultipleDto } from '../dtos/upload-multiple.dto';
+import { SendMailDto } from '../dtos/send-mail.dto';
+import { VerifyOtpDto } from '../dtos/verify-otp.dto';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
 
 @Controller('users')
 export class UserController {
@@ -89,6 +92,26 @@ export class UserController {
     @Body() body: UpdateDto,
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._service.update(id, body);
+  }
+
+  @Post('send-mail')
+  async sendMail(@Body() body: SendMailDto): Promise<void> {
+    return await this._service.sendMail(body);
+  }
+
+  @Post('verify-otp')
+  async verifyOtp(
+    @Body() body: VerifyOtpDto,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._service.verifyOtp(body);
+  }
+
+  @Put('reset-password/:id')
+  async resetPassword(
+    @Param('id') id: number,
+    @Body() body: ResetPasswordDto,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._service.resetPassword(id, body);
   }
 
   @Get()

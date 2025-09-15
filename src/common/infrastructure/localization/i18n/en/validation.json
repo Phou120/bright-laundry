@@ -33,5 +33,8 @@
   "MUST_BE_DIGITS": "Must be exactly {digits} characters long",
   "IS_IN": "{property} must be one of the following values: {options}",
   "ARRAY_NOT_EMPTY": "{property} must not be empty",
-  "IS_INT": "{property} must be an integer"
+  "IS_INT": "{property} must be an integer",
+  "MIN_LENGTH": "{property} must be at least {min} characters long",
+  "MAX_LENGTH": "{property} must be at most {max} characters long",
+  "PASSWORDS_DO_NOT_MATCH": "{property} does not match the confirm password"
 }

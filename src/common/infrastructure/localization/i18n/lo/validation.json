@@ -33,5 +33,8 @@
   "MUST_BE_DIGITS": "ຕ້ອງມີຄວາມຍາວ {digits} ຕົວອັກສອນ",
   "IS_IN": "{property} ຕ້ອງເປັນຫນຶ່ງໃນຄ່າຕໍ່ໄປນີ້: {options}",
   "ARRAY_NOT_EMPTY": "{property} ບໍ່ສາມາດຫວ່າງເປົ່າໄດ້.",
-  "IS_INT": "{property} ຕ້ອງເປັນຈຳນວນເຕັມ."
+  "IS_INT": "{property} ຕ້ອງເປັນຈຳນວນເຕັມ.",
+  "MIN_LENGTH": "{property} ຕ້ອງມີຄວາມຍາວຢ່າງນ້ອຍ {min} ຕົວອັກສອນ",
+  "MAX_LENGTH": "{property} ຕ້ອງມີຄວາມຍາວບໍ່ເກີນ {max} ຕົວອັກສອນ",
+  "PASSWORDS_DO_NOT_MATCH": "{property} ບໍ່ກົງກັບລະຫັດຢືນຢັນ"
 }

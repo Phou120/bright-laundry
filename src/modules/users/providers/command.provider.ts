@@ -14,6 +14,10 @@ import { DeleteRoleHandler } from '../commands/role/handler/delete-command.handl
 import { GetUserQueryHandler } from '../queries/handler/get-user-query.handler';
 import { UploadHandler } from '../commands/handler/upload-command.handler';
 import { UploadMultipleHandler } from '../commands/handler/upload-multiple-command.handler';
+import { SendMailHandler } from '../commands/handler/send-mail-command.handler';
+import { RegisterSuccessListener } from '../listeners/register-success.listener';
+import { VerifyOtpHandler } from '../commands/handler/verify-otp-command.handler';
+import { ResetPasswordHandler } from '../commands/handler/reset-password-command.handler';
 
 export const commandProviders: Provider[] = [
   CreateHandler,
@@ -31,4 +35,8 @@ export const commandProviders: Provider[] = [
   GetUserQueryHandler,
   UploadHandler,
   UploadMultipleHandler,
+  SendMailHandler,
+  RegisterSuccessListener,
+  VerifyOtpHandler,
+  ResetPasswordHandler,
 ];

@@ -9,6 +9,7 @@ import { CreateDto } from '../dtos/create.dto';
 import { RoleOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/role.orm';
 import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/permission.orm';
 import { UserHasPermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-has-permission.orm';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
 
 @Injectable()
 export class WriteUserRepository implements IWriteUserRepository {
@@ -98,5 +99,25 @@ export class WriteUserRepository implements IWriteUserRepository {
 
   async delete(id: number, manager: EntityManager): Promise<void> {
     await manager.softDelete(UserOrmEntity, id);
+  }
+  async saveOTP(
+    otp: string,
+    id: number,
+    manager: EntityManager,
+  ): Promise<void> {
+    await manager.update(UserOrmEntity, id, { verify_otp: otp });
+  }
+
+  async resetPassword(
+    id: number,
+    body: ResetPasswordDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    const user = await manager.preload(UserOrmEntity, {
+      id,
+      password: body.password,
+    });
+
+    return this._dataAccessMapper.toEntity(await manager.save(user!));
   }
 }

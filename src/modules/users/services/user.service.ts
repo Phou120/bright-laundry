@@ -22,6 +22,12 @@ import { UpdateRoleCommand } from '../commands/role/update.command';
 import { DeleteRoleCommand } from '../commands/role/delete.command';
 import { UploadCommand } from '../commands/upload.command';
 import { UploadMultipleCommand } from '../commands/upload-multiple.command';
+import { SendMailDto } from '../dtos/send-mail.dto';
+import { SendMailCommand } from '../commands/send-mail.command';
+import { VerifyOtpDto } from '../dtos/verify-otp.dto';
+import { VerifyOtpCommand } from '../commands/verify-otp.command';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
+import { ResetPasswordCommand } from '../commands/reset-password.command';
 
 @Injectable()
 export class UserService implements IUserServiceInterface {
@@ -135,6 +141,34 @@ export class UserService implements IUserServiceInterface {
   ): Promise<{ imageUrls: string[] }> {
     return await this._commandBus.execute(
       new UploadMultipleCommand(files, manager ?? this._readEntityManager),
+    );
+  }
+
+  // send mail
+  async sendMail(body: SendMailDto, manager?: EntityManager): Promise<void> {
+    return await this._commandBus.execute(
+      new SendMailCommand(body, manager ?? this._readEntityManager),
+    );
+  }
+
+  // verify otp
+  async verifyOtp(
+    body: VerifyOtpDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._commandBus.execute(
+      new VerifyOtpCommand(body, manager ?? this._readEntityManager),
+    );
+  }
+
+  // reset password
+  async resetPassword(
+    id: number,
+    body: ResetPasswordDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._commandBus.execute(
+      new ResetPasswordCommand(id, body, manager ?? this._readEntityManager),
     );
   }
 }

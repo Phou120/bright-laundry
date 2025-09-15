@@ -15,6 +15,10 @@ export const IMAGE_ALLOW_MIME_TYPE = [
   'image/webp',
 ];
 
+export const OTP_LENGTH = 6;
+
+export const QUEUE_SERVICE = Symbol('QUEUE_SERVICE');
+
 export const USER_PROFILE_IMAGE_FILE_OPTIMIZE_SERVICE_KEY = Symbol(
   'USER_PROFILE_IMAGE_FILE_OPTIMIZE_SERVICE_KEY',
 );

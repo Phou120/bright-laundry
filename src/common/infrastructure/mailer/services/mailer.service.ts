@@ -3,6 +3,7 @@ import { Injectable, Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MAIL_SERVICE } from '../consts/mail.const';
 import { IMail, SendMailOptions } from '../interfaces/mailer.interface';
+import { join } from 'path';
 
 @Injectable()
 export class MailService<Context extends { [key: string]: any }>
@@ -19,19 +20,20 @@ export class MailService<Context extends { [key: string]: any }>
     template,
     context,
   }: SendMailOptions<Context>): Promise<void> {
+    const logoPath = join(__dirname, '..', 'templates', 'images', 'logo.png');
     await this._mailerService.sendMail({
       from: this.config.get('MAIL_FROM'),
       to,
       subject,
       template: './' + template,
       context,
-      // attachments: [
-      //   {
-      //     filename: 'logo.png',
-      //     path: __dirname + '/templates/images/logo.png',
-      //     cid: 'logo',
-      //   },
-      // ],
+      attachments: [
+        {
+          filename: 'logo.png',
+          path: logoPath,
+          cid: 'logo',
+        },
+      ],
     });
   }
 }

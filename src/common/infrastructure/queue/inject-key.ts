@@ -4,4 +4,5 @@ export const QUEUE_NAMES = {
 };
 export const JOB_NAMES = {
   SEND_OTP_JOB: 'mail-job',
+  SEND_MAIL_JOB: 'send-mail-job',
 };

@@ -5,6 +5,7 @@ import { CreateDto } from '../dtos/create.dto';
 import { UserQueryDto } from '../dtos/query/query.dto';
 import { UpdateDto } from '../dtos/update.dto';
 import { AuthDto } from '../auth/dtos/auth.dto';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
 
 export interface IWriteUserRepository {
   create(
@@ -20,6 +21,14 @@ export interface IWriteUserRepository {
   ): Promise<ResponseResult<UserOrmEntity>>;
 
   delete(id: number, manager: EntityManager): Promise<void>;
+
+  saveOTP(otp: string, id: number, manager: EntityManager): Promise<void>;
+
+  resetPassword(
+    id: number,
+    body: ResetPasswordDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>>;
 }
 
 export interface IReadUserRepository {

@@ -40,6 +40,9 @@ export class UserOrmEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   access_token?: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  verify_otp?: string;
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

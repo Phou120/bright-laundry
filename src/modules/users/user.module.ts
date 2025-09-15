@@ -6,10 +6,12 @@ import { PermissionController } from './controllers/permission.controller';
 import { RoleController } from './controllers/role.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '@src/common/constants/jwt.constant';
+import { MyQueueModule } from '@src/common/infrastructure/queue/queue.module';
 
 @Module({
   imports: [
     CqrsModule,
+    MyQueueModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
