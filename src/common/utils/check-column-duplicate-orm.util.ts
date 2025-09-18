@@ -9,17 +9,20 @@ export async function _checkColumnDuplicate<T>(
   manager: EntityManager,
   errorMessage = '',
   excludeId?: number | string,
+  property?: string,
 ): Promise<void> {
   const where: any = { [field]: value };
 
   if (excludeId) {
-    console.log('object', excludeId);
     where.id = Not(excludeId);
   }
+  console.log('object');
 
   const existing = await manager.findOne(entity, { where });
 
   if (existing) {
-    throw new DomainException(errorMessage, HttpStatus.BAD_REQUEST);
+    throw new DomainException(errorMessage, HttpStatus.BAD_REQUEST, {
+      property: property || null,
+    });
   }
 }

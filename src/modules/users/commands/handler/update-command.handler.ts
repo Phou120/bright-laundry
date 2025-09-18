@@ -3,6 +3,7 @@ import { UpdateCommand } from '../update.command';
 import { UserOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user.orm';
 import {
   TRANSACTION_MANAGER_SERVICE,
+  WRITE_USER_PROFILE_REPOSITORY,
   WRITE_USER_REPOSITORY,
 } from '@src/common/constants/inject-key';
 import { HttpStatus, Inject } from '@nestjs/common';
@@ -16,6 +17,8 @@ import { findOneOrFail } from '@src/common/utils/fine-one-orm.utils';
 import { RoleOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/role.orm';
 import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/permission.orm';
 import { DomainException } from '@src/common/exceptions/domain.exception';
+import { IWriteUserProfileRepository } from '../../interfaces/user-profile.interface';
+import { UserProfileOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-profile.orm';
 
 @CommandHandler(UpdateCommand)
 export class UpdateHandler
@@ -24,6 +27,8 @@ export class UpdateHandler
   constructor(
     @Inject(WRITE_USER_REPOSITORY)
     private readonly _write: IWriteUserRepository,
+    @Inject(WRITE_USER_PROFILE_REPOSITORY)
+    private readonly _writeUserProfileRepository: IWriteUserProfileRepository,
     @Inject(TRANSACTION_MANAGER_SERVICE)
     private readonly _transactionManagerService: ITransactionManagerService,
     @InjectDataSource(process.env.WRITE_CONNECTION_NAME)
@@ -92,6 +97,21 @@ export class UpdateHandler
         }
         const user = await this._write.update(
           command.id,
+          command.body,
+          manager,
+        );
+        const user_id = (user as UserOrmEntity).id;
+        const profile = await findOneOrFail(
+          manager,
+          UserProfileOrmEntity,
+          { user_id: user_id },
+          `User ${user_id}`,
+        );
+
+        const profile_id = profile.id;
+
+        await this._writeUserProfileRepository.update(
+          profile_id,
           command.body,
           manager,
         );

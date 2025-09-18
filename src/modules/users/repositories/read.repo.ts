@@ -41,9 +41,7 @@ export class ReadUserRepository implements IReadUserRepository {
     const data = await this._paginationService.paginate(
       queryBuilder,
       safeQuery,
-      this._dataAccessMapper.toEntity.bind(this._dataAccessMapper) as (
-        item: UserOrmEntity,
-      ) => unknown,
+      this._dataAccessMapper.toEntity.bind(this._dataAccessMapper),
       this.getFilterOptions(),
     );
     return data as ResponseResult<UserOrmEntity>;
@@ -55,12 +53,14 @@ export class ReadUserRepository implements IReadUserRepository {
       .leftJoin('users.roles', 'roles')
       .leftJoinAndSelect('users.userHasPermissions', 'userHasPermissions')
       .leftJoin('userHasPermissions.permission', 'permission')
+      .leftJoin('users.user_profile', 'profile')
       .addSelect(['roles.id', 'roles.name'])
       .addSelect([
         'permission.id',
         'permission.name',
         'permission.display_name',
-      ]);
+      ])
+      .addSelect(['profile.id', 'profile.image', 'profile.user_id']);
   }
 
   private getFilterOptions(): FilterOptions {

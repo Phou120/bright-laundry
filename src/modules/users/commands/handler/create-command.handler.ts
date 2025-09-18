@@ -2,6 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateCommand } from '../create.command';
 import {
   TRANSACTION_MANAGER_SERVICE,
+  WRITE_USER_PROFILE_REPOSITORY,
   WRITE_USER_REPOSITORY,
 } from '@src/common/constants/inject-key';
 import { Inject } from '@nestjs/common';
@@ -16,12 +17,15 @@ import { findOneOrFail } from '@src/common/utils/fine-one-orm.utils';
 import { RoleOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/role.orm';
 import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/permission.orm';
 import { _checkColumnDuplicate } from '@src/common/utils/check-column-duplicate-orm.util';
+import { IWriteUserProfileRepository } from '../../interfaces/user-profile.interface';
 
 @CommandHandler(CreateCommand)
 export class CreateHandler implements ICommandHandler<CreateCommand, any> {
   constructor(
     @Inject(WRITE_USER_REPOSITORY)
     private readonly _write: IWriteUserRepository,
+    @Inject(WRITE_USER_PROFILE_REPOSITORY)
+    private readonly _writeUserProfileRepository: IWriteUserProfileRepository,
     @Inject(TRANSACTION_MANAGER_SERVICE)
     private readonly _transactionManagerService: ITransactionManagerService,
     @InjectDataSource(process.env.WRITE_CONNECTION_NAME)
@@ -74,6 +78,13 @@ export class CreateHandler implements ICommandHandler<CreateCommand, any> {
 
         const password = await hashPassword(command.body.password);
         const user = await this._write.create(command.body, password, manager);
+        const user_id = (user as UserOrmEntity).id;
+
+        await this._writeUserProfileRepository.create(
+          command.body,
+          user_id,
+          manager,
+        );
         return user;
       },
     );

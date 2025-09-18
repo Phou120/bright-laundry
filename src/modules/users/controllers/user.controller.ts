@@ -75,6 +75,7 @@ export class UserController {
     @UploadedFiles() files: Express.Multer.File[],
     @Body() body: UploadMultipleDto,
   ): Promise<{ imageUrls: string[] }> {
+    console.log('file', body);
     return await this._service.uploadFiles(files);
   }
 

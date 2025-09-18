@@ -8,6 +8,7 @@ import {
   TRANSACTION_MANAGER_SERVICE,
   USER_SERVICE,
   WRITE_ROLE_REPOSITORY,
+  WRITE_USER_PROFILE_REPOSITORY,
   WRITE_USER_REPOSITORY,
 } from '@src/common/constants/inject-key';
 import { LocalizationService } from '@src/common/infrastructure/localization/localization.service';
@@ -21,6 +22,7 @@ import { PermissionService } from '../services/permission.service';
 import { ReadPermissionRepository } from '../repositories/permission/read.repo';
 import { WriteRoleRepository } from '../repositories/role/write.repo';
 import { ReadRoleRepository } from '../repositories/role/read.repo';
+import { WriteUserProfileRepository } from '../repositories/profile/write.repo';
 // import { QueueService } from '@src/common/infrastructure/queue/queue.service';
 
 export const userProvider: Provider[] = [
@@ -65,5 +67,9 @@ export const userProvider: Provider[] = [
   {
     provide: READ_ROLE_REPOSITORY,
     useClass: ReadRoleRepository,
+  },
+  {
+    provide: WRITE_USER_PROFILE_REPOSITORY,
+    useClass: WriteUserProfileRepository,
   },
 ];

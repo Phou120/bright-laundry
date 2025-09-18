@@ -6,6 +6,7 @@ import {
   IsInt,
   IsNotEmpty,
   IsString,
+  MinLength,
 } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
 
@@ -13,23 +14,30 @@ export class CreateDto {
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   @IsEmail({}, { message: i18nValidationMessage('validation.IS_EMAIL') })
-  email: string;
+  readonly email: string;
 
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
-  password: string;
+  @MinLength(6, {
+    message: i18nValidationMessage('validation.MIN_LENGTH', { min: 6 }),
+  })
+  readonly password: string;
 
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
-  name: string;
+  readonly name: string;
 
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
-  surname: string;
+  readonly surname: string;
 
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
-  tel: string;
+  readonly tel: string;
+
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
+  readonly image: string;
 
   @IsArray({ message: i18nValidationMessage('validation.IS_ARRAY') })
   @ArrayNotEmpty({

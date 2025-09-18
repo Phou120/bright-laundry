@@ -7,17 +7,25 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
 import { RoleOrmEntity } from './role.orm';
 import { UserHasPermissionOrmEntity } from './user-has-permission.orm';
+import { UserProfileOrmEntity } from './user-profile.orm';
+import { ReceiverAddressOrmEntity } from './receiver-address.orm';
+import { SupplierOrmEntity } from './supplier.orm';
 
 @Entity('users')
 export class UserOrmEntity {
   @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
+
+  @Index()
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  user_no?: string;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
@@ -42,6 +50,9 @@ export class UserOrmEntity {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   verify_otp?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  notification_token?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
@@ -76,4 +87,16 @@ export class UserOrmEntity {
     (userHasPermission) => userHasPermission.user,
   )
   userHasPermissions: Relation<UserHasPermissionOrmEntity[]>;
+
+  @OneToOne(() => UserProfileOrmEntity, (user_profile) => user_profile.user)
+  user_profile: Relation<UserProfileOrmEntity>;
+
+  @OneToOne(
+    () => ReceiverAddressOrmEntity,
+    (receiver_address) => receiver_address.user,
+  )
+  receiver_address: Relation<ReceiverAddressOrmEntity>;
+
+  @OneToMany(() => SupplierOrmEntity, (supplier) => supplier.users)
+  suppliers: Relation<SupplierOrmEntity[]>;
 }

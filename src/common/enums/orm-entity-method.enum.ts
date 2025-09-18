@@ -9,3 +9,14 @@ export enum EnumType {
   ADMIN = 'admin',
   USER = 'user',
 }
+
+export enum EnumReceiverAddress {
+  HOME = 'home',
+  OFFICE = 'office',
+  OTHER = 'other',
+}
+
+export enum EnumPaymentMethod {
+  ENABLE = 'enable',
+  DISABLE = 'disable',
+}

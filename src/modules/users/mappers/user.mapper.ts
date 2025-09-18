@@ -5,9 +5,13 @@ import { DateFormat } from '@src/common/value-objects/format-date.vo';
 import { Timezone } from '@src/common/value-objects/timezone.vo';
 import moment from 'moment-timezone';
 import { CreateDto } from '../dtos/create.dto';
+import { UserProfileDataAccessMapper } from './user-profile.mapper';
 
 @Injectable()
 export class UserDataAccessMapper {
+  constructor(
+    private readonly userProfileMapper: UserProfileDataAccessMapper,
+  ) {}
   toOrmEntity(
     userEntity: CreateDto,
     method: OrmEntityMethod,
@@ -34,7 +38,12 @@ export class UserDataAccessMapper {
     const permission = ormData.userHasPermissions?.map(
       (perm) => perm.permission,
     );
-    return {
+
+    const profile = ormData.user_profile
+      ? this.userProfileMapper.toEntity(ormData.user_profile)
+      : null;
+
+    const data = {
       id: ormData.id,
       name: ormData.name,
       surname: ormData.surname,
@@ -50,8 +59,11 @@ export class UserDataAccessMapper {
             .tz(Timezone.LAOS)
             .format(DateFormat.DATETIME_READABLE_FORMAT)
         : null,
+      profile: profile,
       roles: ormData.roles,
       permissions: permission || [],
     } as unknown as UserOrmEntity;
+
+    return data;
   }
 }
