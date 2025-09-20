@@ -26,4 +26,6 @@ export interface IBrandServiceInterface {
     dto: UpdateDto,
     manager?: EntityManager,
   ): Promise<ResponseResult<ProductBrandOrmEntity>>;
+
+  delete(id: number, manager?: EntityManager): Promise<void>;
 }

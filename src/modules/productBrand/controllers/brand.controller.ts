@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -50,5 +51,10 @@ export class BrandController {
     @Param('id') id: number,
   ): Promise<ResponseResult<ProductBrandOrmEntity>> {
     return await this._service.getById(id);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: number): Promise<void> {
+    await this._service.delete(id);
   }
 }

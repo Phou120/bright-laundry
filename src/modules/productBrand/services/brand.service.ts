@@ -12,6 +12,7 @@ import { GetAllQuery } from '../queries/get-all.query';
 import { GetByIdQuery } from '../queries/get-by-id.query';
 import { UpdateDto } from '../dtos/update.dto';
 import { UpdateCommand } from '../commands/update.command';
+import { DeleteCommand } from '../commands/delete.command';
 
 @Injectable()
 export class BrandService implements IBrandServiceInterface {
@@ -27,7 +28,7 @@ export class BrandService implements IBrandServiceInterface {
     manager?: EntityManager,
   ): Promise<ResponseResult<ProductBrandOrmEntity>> {
     return await this._commandBus.execute(
-      new CreateCommand(dto, manager || this._readEntityManager),
+      new CreateCommand(dto, manager ?? this._readEntityManager),
     );
   }
 
@@ -36,7 +37,7 @@ export class BrandService implements IBrandServiceInterface {
     manager?: EntityManager,
   ): Promise<ResponseResult<ProductBrandOrmEntity>> {
     return await this._queryBus.execute(
-      new GetAllQuery(query, manager || this._readEntityManager),
+      new GetAllQuery(query, manager ?? this._readEntityManager),
     );
   }
 
@@ -45,7 +46,7 @@ export class BrandService implements IBrandServiceInterface {
     manager?: EntityManager,
   ): Promise<ResponseResult<ProductBrandOrmEntity>> {
     return await this._queryBus.execute(
-      new GetByIdQuery(id, manager || this._readEntityManager),
+      new GetByIdQuery(id, manager ?? this._readEntityManager),
     );
   }
 
@@ -55,7 +56,13 @@ export class BrandService implements IBrandServiceInterface {
     manager?: EntityManager,
   ): Promise<ResponseResult<ProductBrandOrmEntity>> {
     return await this._commandBus.execute(
-      new UpdateCommand(id, dto, manager || this._readEntityManager),
+      new UpdateCommand(id, dto, manager ?? this._readEntityManager),
+    );
+  }
+
+  async delete(id: number, manager?: EntityManager): Promise<void> {
+    return await this._commandBus.execute(
+      new DeleteCommand(id, manager ?? this._readEntityManager),
     );
   }
 }

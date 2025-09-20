@@ -25,4 +25,21 @@ export class WriteProductBrandRepository
     );
     return this._dataAccessMapper.toEntity(await manager.save(ormData));
   }
+
+  async update(
+    id: number,
+    body: CreateDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<ProductBrandOrmEntity>> {
+    const ormData = this._dataAccessMapper.toOrmEntity(
+      body,
+      OrmEntityMethod.UPDATE,
+    );
+    ormData.id = id;
+    return this._dataAccessMapper.toEntity(await manager.save(ormData));
+  }
+
+  async delete(id: number, manager: EntityManager): Promise<void> {
+    await manager.softDelete(ProductBrandOrmEntity, id);
+  }
 }
