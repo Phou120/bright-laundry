@@ -21,7 +21,8 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:generate": "pnpm run typeorm migration:generate -d ./src/common/infrastructure/database/data-source.ts ./src/common/infrastructure/database/migrations/update-schema",
     "migration:run": "pnpm run typeorm migration:run -d ./src/common/infrastructure/database/data-source.ts",
-    "db:seed": "ts-node -r tsconfig-paths/register ./src/common/infrastructure/database/data-seed.ts"
+    "db:seed": "ts-node -r tsconfig-paths/register ./src/common/infrastructure/database/data-seed.ts",
+    "deploy": "scp -r dist/ package.json pnpm-lock.yaml root@146.190.111.243:/var/www/api/"
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.888.0",
