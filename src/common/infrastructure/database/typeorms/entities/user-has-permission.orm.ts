@@ -9,7 +9,7 @@ export class UserHasPermissionOrmEntity {
   @PrimaryColumn({ name: 'permission_id', type: 'bigint', unsigned: true })
   permission_id: number;
 
-  @PrimaryColumn({ name: 'user_id', type: 'bigint', unsigned: true })
+  @PrimaryColumn({ name: 'user_id', type: 'int' })
   user_id: number;
 
   @ManyToOne(

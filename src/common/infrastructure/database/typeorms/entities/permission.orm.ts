@@ -29,7 +29,7 @@ export class PermissionOrmEntity {
   display_name: string;
 
   @Index()
-  @Column({ type: 'int', unsigned: true, nullable: true })
+  @Column({ type: 'int', nullable: true })
   permission_group_id?: number;
   @ManyToOne(
     () => PermissionGroupOrmEntity,
