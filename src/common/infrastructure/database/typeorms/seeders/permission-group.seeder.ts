@@ -48,6 +48,20 @@ export class PermissionGroupSeeder {
         created_at: currentDateTime,
         updated_at: currentDateTime,
       },
+      {
+        name: 'banner',
+        display_name: 'Banner',
+        type: EnumType.ADMIN,
+        created_at: currentDateTime,
+        updated_at: currentDateTime,
+      },
+      {
+        name: 'brand',
+        display_name: 'Brand',
+        type: EnumType.ALL,
+        created_at: currentDateTime,
+        updated_at: currentDateTime,
+      },
     ];
 
     for (const item of items) {
