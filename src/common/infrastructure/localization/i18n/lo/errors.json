@@ -61,5 +61,6 @@
   "invalid_image_format": "ຮູບແບບຂອງຮູບພາບບໍ່ຖືກຕ້ອງ",
   "failed_to_optimize_image": "ບໍ່ສາມາດປັບປຸງຮູບພາບໃຫ້ <= 1MB",
   "cannot_reduce_image": "ບໍ່ສາມາດປັບປຸງຮູບພາບໃຫ້ນ້ອຍກວ່າ 1MB",
-  "order_by_already_exists": "ລຳດັບມີໃນລະບົບແລ້ວ, ລຳດັບທີ່ສາມາດເພີ່ມໄດ້: {property}"
+  "order_by_already_exists": "ລຳດັບມີໃນລະບົບແລ້ວ, ລຳດັບທີ່ສາມາດເພີ່ມໄດ້: {property}",
+  "code_exists": "user no ມີໃນລະບົບແລ້ວ"
 }

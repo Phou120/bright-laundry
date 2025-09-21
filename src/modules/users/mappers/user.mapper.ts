@@ -16,10 +16,12 @@ export class UserDataAccessMapper {
     userEntity: CreateDto,
     method: OrmEntityMethod,
     password?: string,
+    code?: string,
   ): UserOrmEntity {
     const now = moment.tz(Timezone.LAOS).format(DateFormat.DATETIME_FORMAT);
 
     const ormEntity = new UserOrmEntity();
+    ormEntity.user_no = code;
     ormEntity.name = userEntity.name;
     ormEntity.surname = userEntity.surname;
     ormEntity.email = userEntity.email;
@@ -45,6 +47,7 @@ export class UserDataAccessMapper {
 
     const data = {
       id: ormData.id,
+      user_no: ormData.user_no,
       name: ormData.name,
       surname: ormData.surname,
       email: ormData.email,

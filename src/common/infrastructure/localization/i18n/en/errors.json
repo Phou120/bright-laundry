@@ -61,5 +61,6 @@
   "invalid_image_format": "Invalid image format",
   "failed_to_optimize_image": "Failed to optimize image to <= 1MB",
   "cannot_reduce_image": "Cannot reduce image below 1MB",
-  "order_by_already_exists": "Order by already exists, The order by can be added: {property}"
+  "order_by_already_exists": "Order by already exists, The order by can be added: {property}",
+  "code_exists": "user no already exists"
 }

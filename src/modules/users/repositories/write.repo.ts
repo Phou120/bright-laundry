@@ -19,11 +19,13 @@ export class WriteUserRepository implements IWriteUserRepository {
     body: CreateDto,
     password: string,
     manager: EntityManager,
+    code: string,
   ): Promise<ResponseResult<UserOrmEntity>> {
     const ormUser = this._dataAccessMapper.toOrmEntity(
       body,
       OrmEntityMethod.CREATE,
       password,
+      code,
     );
 
     const roles = await manager.findBy(RoleOrmEntity, {
