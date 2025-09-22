@@ -10,6 +10,7 @@ import { RoleOrmEntity } from '@src/common/infrastructure/database/typeorms/enti
 import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/permission.orm';
 import { UserHasPermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-has-permission.orm';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
+import { ChangePasswordDto } from '../dtos/change-password.dto';
 
 @Injectable()
 export class WriteUserRepository implements IWriteUserRepository {
@@ -121,5 +122,15 @@ export class WriteUserRepository implements IWriteUserRepository {
     });
 
     return this._dataAccessMapper.toEntity(await manager.save(user!));
+  }
+
+  async changePassword(
+    id: number,
+    body: ChangePasswordDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    const ormData = this._dataAccessMapper.toOrmEntityToChangePassword(body);
+    ormData.id = id;
+    return this._dataAccessMapper.toEntity(await manager.save(ormData));
   }
 }

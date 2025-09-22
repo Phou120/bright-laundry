@@ -10,6 +10,7 @@ import { UpdateRoleDto } from '../dtos/update-role.dto';
 import { SendMailDto } from '../dtos/send-mail.dto';
 import { VerifyOtpDto } from '../dtos/verify-otp.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
+import { ChangePasswordDto } from '../dtos/change-password.dto';
 
 export interface IUserServiceInterface {
   create(
@@ -86,6 +87,13 @@ export interface IUserServiceInterface {
   resetPassword(
     id: number,
     body: ResetPasswordDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
+  // change password
+  changePassword(
+    id: number,
+    body: ChangePasswordDto,
     manager?: EntityManager,
   ): Promise<ResponseResult<UserOrmEntity>>;
 }

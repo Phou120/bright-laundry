@@ -62,5 +62,7 @@
   "failed_to_optimize_image": "Failed to optimize image to <= 1MB",
   "cannot_reduce_image": "Cannot reduce image below 1MB",
   "order_by_already_exists": "Order by already exists, The order by can be added: {property}",
-  "code_exists": "user no already exists"
+  "code_exists": "user no already exists",
+  "company_already_exists": "Company already exists",
+  "invalid_old_password": "Invalid old password"
 }
