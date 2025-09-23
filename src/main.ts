@@ -5,11 +5,6 @@ import { I18nMiddleware, I18nValidationPipe } from 'nestjs-i18n';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.enableCors({ origin: '*' });
-  // app.enableCors({
-  //   origin: '*',
-  //   credentials: true,
-  // });
   app.enableCors('*');
   app.setGlobalPrefix('api');
 
