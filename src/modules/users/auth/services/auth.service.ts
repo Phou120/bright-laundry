@@ -5,6 +5,7 @@ import { EntityManager } from 'typeorm';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { LoginCommand } from '../commands/auth.command';
 import { AuthDto } from '../dtos/auth.dto';
+import { LogOutCommand } from '../commands/logout.command';
 
 @Injectable()
 export class AuthService implements IAuthServiceInterface {
@@ -21,7 +22,9 @@ export class AuthService implements IAuthServiceInterface {
     );
   }
 
-  //   async signOut(userId: string): Promise<any> {
-  //     // Implement signOut logic
-  //   }
+  async signOut(user_id: number, manager?: EntityManager): Promise<string> {
+    return await this._commandBus.execute(
+      new LogOutCommand(user_id, manager ?? this._readEntityManager),
+    );
+  }
 }

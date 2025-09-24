@@ -53,4 +53,6 @@ export interface IReadUserRepository {
   signIn(body: AuthDto, manager?: EntityManager): Promise<string>;
 
   getUser(id: number): Promise<UserOrmEntity | null>;
+
+  logout(user_id: number, manager?: EntityManager): Promise<any>;
 }

@@ -155,4 +155,10 @@ export class ReadUserRepository implements IReadUserRepository {
       permissions: mappedPermissions,
     };
   }
+
+  async logout(user_id: number, manager?: EntityManager): Promise<any> {
+    const em = manager ?? this._Orm.manager;
+    const repo = em.getRepository(UserOrmEntity);
+    return await repo.update(user_id, { access_token: '' });
+  }
 }

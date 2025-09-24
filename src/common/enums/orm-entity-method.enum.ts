@@ -20,3 +20,8 @@ export enum EnumPaymentMethod {
   ENABLE = 'enable',
   DISABLE = 'disable',
 }
+
+export enum EnumShipping {
+  STORE = 'store',
+  CUSTOMER = 'customer',
+}
