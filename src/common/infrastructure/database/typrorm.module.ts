@@ -11,6 +11,8 @@ import { PermissionGroupSeeder } from './typeorms/seeders/permission-group.seede
 import { PermissionSeeder } from './typeorms/seeders/permission.seeder';
 import { ProvinceSeeder } from './typeorms/seeders/province.seeder';
 import { DistrictSeeder } from './typeorms/seeders/district.seeder';
+import { TaxSeeder } from './typeorms/seeders/tax.seeder';
+import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
 
 @Global()
 @Module({
@@ -68,6 +70,8 @@ import { DistrictSeeder } from './typeorms/seeders/district.seeder';
     PermissionSeeder,
     ProvinceSeeder,
     DistrictSeeder,
+    TaxSeeder,
+    StoreStatusSeeder,
   ],
 })
 export class TypeOrmRepositoryModule {}

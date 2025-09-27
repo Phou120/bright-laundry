@@ -5,6 +5,7 @@ import { BannerModule } from './banners/banner.module';
 import { BrandModule } from './productBrand/product-brand.module';
 import { SupplierModule } from './suppliers/supplier.module';
 import { TagModule } from './tags/tag.module';
+import { TaxModule } from './tax/tax.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TagModule } from './tags/tag.module';
     BrandModule,
     SupplierModule,
     TagModule,
+    TaxModule,
   ],
   controllers: [],
   providers: [],

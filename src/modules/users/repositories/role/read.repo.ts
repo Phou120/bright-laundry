@@ -43,7 +43,17 @@ export class ReadRoleRepository implements IReadRoleRepository {
   }
 
   private createBaseQuery(manager: EntityManager) {
-    return manager.createQueryBuilder(RoleOrmEntity, 'roles');
+    return manager
+      .createQueryBuilder(RoleOrmEntity, 'roles')
+      .leftJoin('roles.role_permissions', 'role_permission')
+      .leftJoin('role_permission.permission', 'permission')
+      .addSelect([
+        'role_permission.role_id',
+        'role_permission.permission_id',
+        'permission.id',
+        'permission.name',
+        'permission.display_name',
+      ]);
   }
 
   private getFilterOptions(): FilterOptions {

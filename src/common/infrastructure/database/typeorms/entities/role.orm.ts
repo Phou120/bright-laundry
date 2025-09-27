@@ -5,11 +5,13 @@ import {
   Entity,
   Index,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserOrmEntity } from './user.orm';
+import { RolePermissionOrmEntity } from './role_permission.orm';
 
 @Entity('roles')
 export class RoleOrmEntity {
@@ -40,4 +42,10 @@ export class RoleOrmEntity {
     onUpdate: 'NO ACTION',
   })
   users: Relation<UserOrmEntity[]>;
+
+  @OneToMany(
+    () => RolePermissionOrmEntity,
+    (rolePermission) => rolePermission.role,
+  )
+  role_permissions: Relation<RolePermissionOrmEntity[]>;
 }

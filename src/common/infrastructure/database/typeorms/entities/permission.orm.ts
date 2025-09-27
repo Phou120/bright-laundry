@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { PermissionGroupOrmEntity } from './permission-group.orm';
 import { UserHasPermissionOrmEntity } from './user-has-permission.orm';
+import { RolePermissionOrmEntity } from './role_permission.orm';
 
 @Entity('permissions')
 export class PermissionOrmEntity {
@@ -54,4 +55,10 @@ export class PermissionOrmEntity {
     (userHasPermission) => userHasPermission.permission,
   )
   userHasPermissions: Relation<UserHasPermissionOrmEntity[]>;
+
+  @OneToMany(
+    () => RolePermissionOrmEntity,
+    (rolePermission) => rolePermission.permission,
+  )
+  role_permissions: Relation<RolePermissionOrmEntity[]>;
 }

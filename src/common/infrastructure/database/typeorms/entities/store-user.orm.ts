@@ -4,24 +4,39 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
 import { StoreOrmEntity } from './store.orm';
+import { UserOrmEntity } from './user.orm';
 
-@Entity('taxes')
-export class TaxOrmEntity {
+@Entity('store_users')
+export class StoreUserOrmEntity {
   @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
 
   @Index()
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  name?: string;
+  @Column({ type: 'int', unsigned: true, nullable: true })
+  store_id?: number;
+  @ManyToOne(() => StoreOrmEntity, (store) => store.store_users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'store_id' })
+  store: Relation<StoreOrmEntity>;
 
-  @Column({ type: 'double precision', nullable: true })
-  percentage?: number;
+  @Index()
+  @Column({ type: 'int', unsigned: true, nullable: true })
+  user_id?: number;
+  @ManyToOne(() => UserOrmEntity, (user) => user.store_users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: Relation<UserOrmEntity>;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
@@ -33,7 +48,4 @@ export class TaxOrmEntity {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date | null;
-
-  @OneToMany(() => StoreOrmEntity, (store) => store.tax)
-  stores: Relation<StoreOrmEntity[]>;
 }

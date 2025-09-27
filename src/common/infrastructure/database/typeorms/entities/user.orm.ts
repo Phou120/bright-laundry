@@ -17,6 +17,7 @@ import { UserHasPermissionOrmEntity } from './user-has-permission.orm';
 import { UserProfileOrmEntity } from './user-profile.orm';
 import { ReceiverAddressOrmEntity } from './receiver-address.orm';
 import { SupplierOrmEntity } from './supplier.orm';
+import { StoreUserOrmEntity } from './store-user.orm';
 
 @Entity('users')
 export class UserOrmEntity {
@@ -99,4 +100,7 @@ export class UserOrmEntity {
 
   @OneToMany(() => SupplierOrmEntity, (supplier) => supplier.users)
   suppliers: Relation<SupplierOrmEntity[]>;
+
+  @OneToMany(() => StoreUserOrmEntity, (storeUser) => storeUser.user)
+  store_users: Relation<StoreUserOrmEntity[]>;
 }

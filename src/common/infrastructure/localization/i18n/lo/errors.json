@@ -64,5 +64,6 @@
   "order_by_already_exists": "ລຳດັບມີໃນລະບົບແລ້ວ, ລຳດັບທີ່ສາມາດເພີ່ມໄດ້: {property}",
   "code_exists": "user no ມີໃນລະບົບແລ້ວ",
   "company_already_exists": "ບໍລິສັດມີໃນລະບົບແລ້ວ",
-  "invalid_old_password": "ລະຫັດເກົ່າບໍ່ຖືກຕ້ອງ"
+  "invalid_old_password": "ລະຫັດເກົ່າບໍ່ຖືກຕ້ອງ",
+  "permission_ids_required": "ຕ້ອງມີ Permission ids"
 }

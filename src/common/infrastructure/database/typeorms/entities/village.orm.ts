@@ -6,11 +6,13 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
 import { DistrictOrmEntity } from './district.orm';
+import { StoreOrmEntity } from './store.orm';
 
 @Entity('villages')
 export class VillageOrmEntity {
@@ -41,4 +43,7 @@ export class VillageOrmEntity {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date | null;
+
+  @OneToMany(() => StoreOrmEntity, (store) => store.village)
+  stores: Relation<StoreOrmEntity[]>;
 }

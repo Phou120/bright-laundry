@@ -6,6 +6,7 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
@@ -13,6 +14,9 @@ import {
 import { StoreStatusOrmEntity } from './store-status.orm';
 import { TaxOrmEntity } from './tax.orm';
 import { EnumShipping } from '@src/common/enums/orm-entity-method.enum';
+import { StoreUserOrmEntity } from './store-user.orm';
+import { StoreOpenCloseTimeOrmEntity } from './store-open-close-time.orm';
+import { VillageOrmEntity } from './village.orm';
 
 @Entity('stores')
 export class StoreOrmEntity {
@@ -80,6 +84,16 @@ export class StoreOrmEntity {
 
   @Index()
   @Column({ type: 'int', unsigned: true, nullable: true })
+  village_id?: number;
+  @ManyToOne(() => VillageOrmEntity, (village) => village.stores, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'village_id' })
+  village: Relation<VillageOrmEntity>;
+
+  @Index()
+  @Column({ type: 'int', unsigned: true, nullable: true })
   tax_id?: number;
   @ManyToOne(() => TaxOrmEntity, (tax) => tax.stores, {
     onDelete: 'CASCADE',
@@ -106,4 +120,13 @@ export class StoreOrmEntity {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date | null;
+
+  @OneToMany(() => StoreUserOrmEntity, (storeUser) => storeUser.store)
+  store_users: Relation<StoreUserOrmEntity[]>;
+
+  @OneToMany(
+    () => StoreOpenCloseTimeOrmEntity,
+    (storeOpenCloseTime) => storeOpenCloseTime.store,
+  )
+  store_open_close_times: Relation<StoreOpenCloseTimeOrmEntity[]>;
 }
