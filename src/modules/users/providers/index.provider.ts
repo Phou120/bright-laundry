@@ -7,6 +7,7 @@ import {
   READ_USER_REPOSITORY,
   TRANSACTION_MANAGER_SERVICE,
   USER_SERVICE,
+  WRITE_ROLE_PERMISSION_REPOSITORY,
   WRITE_ROLE_REPOSITORY,
   WRITE_USER_PROFILE_REPOSITORY,
   WRITE_USER_REPOSITORY,
@@ -23,6 +24,7 @@ import { ReadPermissionRepository } from '../repositories/permission/read.repo';
 import { WriteRoleRepository } from '../repositories/role/write.repo';
 import { ReadRoleRepository } from '../repositories/role/read.repo';
 import { WriteUserProfileRepository } from '../repositories/profile/write.repo';
+import { WriteRolePermissionRepository } from '../repositories/rolePermission/wirte.repo';
 // import { QueueService } from '@src/common/infrastructure/queue/queue.service';
 
 export const userProvider: Provider[] = [
@@ -71,5 +73,9 @@ export const userProvider: Provider[] = [
   {
     provide: WRITE_USER_PROFILE_REPOSITORY,
     useClass: WriteUserProfileRepository,
+  },
+  {
+    provide: WRITE_ROLE_PERMISSION_REPOSITORY,
+    useClass: WriteRolePermissionRepository,
   },
 ];

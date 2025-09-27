@@ -64,5 +64,6 @@
   "order_by_already_exists": "Order by already exists, The order by can be added: {property}",
   "code_exists": "user no already exists",
   "company_already_exists": "Company already exists",
-  "invalid_old_password": "Invalid old password"
+  "invalid_old_password": "Invalid old password",
+  "permission_ids_required": "Permission ids are required"
 }

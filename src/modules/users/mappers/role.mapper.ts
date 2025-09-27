@@ -24,6 +24,14 @@ export class RoleDataAccessMapper {
   }
 
   toEntity(ormData: RoleOrmEntity): RoleOrmEntity {
+    const rolePermissions = Array.isArray(ormData.role_permissions)
+      ? ormData.role_permissions.map((rp) => ({
+          id: rp.permission.id,
+          name: rp.permission.name,
+          display_name: rp.permission.display_name,
+        }))
+      : [];
+
     return {
       id: ormData.id,
       name: ormData.name,
@@ -38,6 +46,7 @@ export class RoleDataAccessMapper {
             .tz(Timezone.LAOS)
             .format(DateFormat.DATETIME_READABLE_FORMAT)
         : null,
+      role_permissions: rolePermissions,
     } as unknown as RoleOrmEntity;
   }
 }
