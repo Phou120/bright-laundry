@@ -21,7 +21,6 @@ export class ReadTaxRepository implements IReadTaxRepository {
     @Inject(PAGINATION_SERVICE)
     private readonly _paginationService: IPaginationService,
   ) {}
-
   async findAll(
     query: TaxQueryDto,
     manager: EntityManager,

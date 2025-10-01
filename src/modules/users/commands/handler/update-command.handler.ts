@@ -10,7 +10,7 @@ import { HttpStatus, Inject } from '@nestjs/common';
 import { IWriteUserRepository } from '../../interfaces/repository.interface';
 import { ITransactionManagerService } from '@src/common/infrastructure/transaction/transaction.interface';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import { DataSource, EntityManager } from 'typeorm';
 import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
 import { _checkColumnDuplicate } from '@src/common/utils/check-column-duplicate-orm.util';
 import { findOneOrFail } from '@src/common/utils/fine-one-orm.utils';
@@ -19,6 +19,8 @@ import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorm
 import { DomainException } from '@src/common/exceptions/domain.exception';
 import { IWriteUserProfileRepository } from '../../interfaces/user-profile.interface';
 import { UserProfileOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-profile.orm';
+import { UpdateDto } from '../../dtos/update.dto';
+import { CreateDto } from '../../dtos/create.dto';
 
 @CommandHandler(UpdateCommand)
 export class UpdateHandler
@@ -101,22 +103,46 @@ export class UpdateHandler
           manager,
         );
         const user_id = (user as UserOrmEntity).id;
-        const profile = await findOneOrFail(
-          manager,
-          UserProfileOrmEntity,
-          { user_id: user_id },
-          `User ${user_id}`,
-        );
+        // const profile = await findOneOrFail(
+        //   manager,
+        //   UserProfileOrmEntity,
+        //   { user_id: user_id },
+        //   `User ${user_id}`,
+        // );
 
-        const profile_id = profile.id;
+        // const profile_id = profile.id;
 
-        await this._writeUserProfileRepository.update(
-          profile_id,
-          command.body,
-          manager,
-        );
+        // await this._writeUserProfileRepository.update(
+        //   profile_id,
+        //   command.body,
+        //   manager,
+        // );
+        await this.updateProfile(user_id, command.body, manager);
         return user;
       },
     );
+  }
+
+  private async updateProfile(
+    user_id: number,
+    body: UpdateDto,
+    manager: EntityManager,
+  ): Promise<void> {
+    try {
+      const profile = await findOneOrFail(
+        manager,
+        UserProfileOrmEntity,
+        { user_id: user_id },
+        `User ${user_id}`,
+      );
+
+      const profile_id = profile.id;
+
+      await this._writeUserProfileRepository.update(profile_id, body, manager);
+    } catch (e) {
+      console.log(e);
+      const profile = body as unknown as CreateDto;
+      await this._writeUserProfileRepository.create(profile, user_id, manager);
+    }
   }
 }

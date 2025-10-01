@@ -20,7 +20,7 @@ export class TaxOrmEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   name?: string;
 
-  @Column({ type: 'double precision', nullable: true })
+  @Column({ type: 'decimal', precision: 18, scale: 8, nullable: true })
   percentage?: number;
 
   @CreateDateColumn({ type: 'timestamp' })

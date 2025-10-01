@@ -65,5 +65,6 @@
   "code_exists": "user no ມີໃນລະບົບແລ້ວ",
   "company_already_exists": "ບໍລິສັດມີໃນລະບົບແລ້ວ",
   "invalid_old_password": "ລະຫັດເກົ່າບໍ່ຖືກຕ້ອງ",
-  "permission_ids_required": "ຕ້ອງມີ Permission ids"
+  "permission_ids_required": "ຕ້ອງມີ Permission ids",
+  "store_is_open": "ບໍ່ສາມາດລົບຮ້ານ {property} ໄດ້, ເພາະວ່າຮ້ານນີ້ຍັງເປີດໃຊ້ງານຢູ່"
 }

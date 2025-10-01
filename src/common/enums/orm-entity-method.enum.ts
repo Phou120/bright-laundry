@@ -25,3 +25,9 @@ export enum EnumShipping {
   STORE = 'store',
   CUSTOMER = 'customer',
 }
+
+export enum EnumStoreStatus {
+  PENDING = 1,
+  OPEN = 2,
+  CLOSE = 3,
+}

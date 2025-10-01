@@ -25,12 +25,12 @@ export class VillageOrmEntity {
 
   @Index()
   @Column({ type: 'int', unsigned: true, nullable: true })
-  user_id?: number;
+  district_id?: number;
   @ManyToOne(() => DistrictOrmEntity, (district) => district.villages, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'district_id' })
   district: Relation<DistrictOrmEntity>;
 
   @CreateDateColumn({ type: 'timestamp' })

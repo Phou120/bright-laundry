@@ -18,6 +18,7 @@ export class TransformResultService implements ITransformResultService {
     if ('data' in result && Array.isArray(result.data)) {
       return {
         ...result,
+        // count_item: result.count_item,
         data: result.data.map(mapper),
       };
     } else if (Array.isArray(result)) {
