@@ -7,6 +7,7 @@ import moment from 'moment-timezone';
 import { CreateDto } from '../dtos/create.dto';
 import { UserProfileDataAccessMapper } from './user-profile.mapper';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
+import { UpdateDto } from '../dtos/update.dto';
 
 @Injectable()
 export class UserDataAccessMapper {
@@ -42,6 +43,25 @@ export class UserDataAccessMapper {
 
     const ormEntity = new UserOrmEntity();
     ormEntity.password = userEntity.new_password;
+    ormEntity.updated_at = new Date(now);
+
+    return ormEntity;
+  }
+
+  toOrmEntityToStoreUser(
+    userEntity: UpdateDto,
+    password?: string,
+  ): UserOrmEntity {
+    const now = moment.tz(Timezone.LAOS).format(DateFormat.DATETIME_FORMAT);
+
+    const ormEntity = new UserOrmEntity();
+    ormEntity.name = userEntity.name;
+    ormEntity.email = userEntity.email;
+    ormEntity.tel = userEntity.tel;
+    ormEntity.surname = userEntity.surname;
+    if (password) {
+      ormEntity.password = password;
+    }
     ormEntity.updated_at = new Date(now);
 
     return ormEntity;

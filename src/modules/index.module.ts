@@ -6,6 +6,7 @@ import { BrandModule } from './productBrand/product-brand.module';
 import { SupplierModule } from './suppliers/supplier.module';
 import { TagModule } from './tags/tag.module';
 import { TaxModule } from './tax/tax.module';
+import { StoreModule } from './stores/store.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TaxModule } from './tax/tax.module';
     SupplierModule,
     TagModule,
     TaxModule,
+    StoreModule,
   ],
   controllers: [],
   providers: [],

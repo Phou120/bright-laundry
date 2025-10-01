@@ -16,6 +16,21 @@ export interface IWriteUserRepository {
     code: string,
   ): Promise<ResponseResult<UserOrmEntity>>;
 
+  createStoreUser(
+    body: CreateDto,
+    password: string,
+    manager: EntityManager,
+    code: string,
+    role_name: string,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
+  updateStoreUser(
+    id: number,
+    body: UpdateDto,
+    manager: EntityManager,
+    password?: string,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
   update(
     id: number,
     body: UpdateDto,

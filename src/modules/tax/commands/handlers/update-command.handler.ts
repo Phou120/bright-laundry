@@ -36,6 +36,7 @@ export class UpdateHandler
           command.body.name,
           manager,
           'errors.name_already_exists',
+          command.id,
         );
 
         return await this._write.update(command.id, command.body, manager);

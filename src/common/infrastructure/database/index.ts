@@ -4,6 +4,7 @@ import { PaymentMethodOrmEntity } from './typeorms/entities/payment-method.orm';
 import { PermissionGroupOrmEntity } from './typeorms/entities/permission-group.orm';
 import { PermissionOrmEntity } from './typeorms/entities/permission.orm';
 import { ProductBrandOrmEntity } from './typeorms/entities/product-brand.orm';
+import { ProductCategoryOrmEntity } from './typeorms/entities/product-categoy.orm';
 import { ProvinceOrmEntity } from './typeorms/entities/province.orm';
 import { ReceiverAddressOrmEntity } from './typeorms/entities/receiver-address.orm';
 import { RoleOrmEntity } from './typeorms/entities/role.orm';
@@ -46,4 +47,5 @@ export const entities = [
   StoreUserOrmEntity,
   StoreOpenCloseTimeOrmEntity,
   RolePermissionOrmEntity,
+  ProductCategoryOrmEntity,
 ];

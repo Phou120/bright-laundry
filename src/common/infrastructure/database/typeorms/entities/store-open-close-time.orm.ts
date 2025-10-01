@@ -26,8 +26,12 @@ export class StoreOpenCloseTimeOrmEntity {
   close_day?: number | null;
 
   @Index()
-  @Column({ type: 'timestamp', nullable: true })
-  start_time?: Date | null;
+  @Column({ type: 'time', nullable: true })
+  start_time?: string | null;
+
+  @Index()
+  @Column({ type: 'time', nullable: true })
+  end_time?: string | null;
 
   @Index()
   @Column({ type: 'int', unsigned: true, nullable: true })

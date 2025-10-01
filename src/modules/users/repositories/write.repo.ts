@@ -11,6 +11,7 @@ import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorm
 import { UserHasPermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-has-permission.orm';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
+import { UpdateDto } from '../dtos/update.dto';
 
 @Injectable()
 export class WriteUserRepository implements IWriteUserRepository {
@@ -49,6 +50,32 @@ export class WriteUserRepository implements IWriteUserRepository {
     });
 
     await manager.save(UserHasPermissionOrmEntity, userHasPermissions);
+
+    return this._dataAccessMapper.toEntity(savedUser);
+  }
+
+  async createStoreUser(
+    body: CreateDto,
+    password: string,
+    manager: EntityManager,
+    code: string,
+    role_name: string,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    const ormUser = this._dataAccessMapper.toOrmEntity(
+      body,
+      OrmEntityMethod.CREATE,
+      password,
+      code,
+    );
+
+    const roles = await manager.findBy(RoleOrmEntity, {
+      name: role_name,
+      // name: 'storemanager',
+    });
+
+    ormUser.roles = roles;
+
+    const savedUser = await manager.save(ormUser);
 
     return this._dataAccessMapper.toEntity(savedUser);
   }
@@ -130,6 +157,21 @@ export class WriteUserRepository implements IWriteUserRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<UserOrmEntity>> {
     const ormData = this._dataAccessMapper.toOrmEntityToChangePassword(body);
+    ormData.id = id;
+    return this._dataAccessMapper.toEntity(await manager.save(ormData));
+  }
+
+  async updateStoreUser(
+    id: number,
+    body: UpdateDto,
+    manager: EntityManager,
+    password?: string,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    console.log('body', body);
+    const ormData = this._dataAccessMapper.toOrmEntityToStoreUser(
+      body,
+      password,
+    );
     ormData.id = id;
     return this._dataAccessMapper.toEntity(await manager.save(ormData));
   }
