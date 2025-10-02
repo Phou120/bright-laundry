@@ -8,6 +8,7 @@ import { TagModule } from './tags/tag.module';
 import { TaxModule } from './tax/tax.module';
 import { StoreModule } from './stores/store.module';
 import { CategoryModule } from './category/category.module';
+import { ProvinceModule } from './provinces/province.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CategoryModule } from './category/category.module';
     TaxModule,
     StoreModule,
     CategoryModule,
+    ProvinceModule,
   ],
   controllers: [],
   providers: [],

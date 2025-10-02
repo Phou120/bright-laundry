@@ -97,7 +97,7 @@ export class UserController {
   }
 
   @Public()
-  @Post('send-mail')
+  @Post('send-mail/otp')
   async sendMail(@Body() body: SendMailDto): Promise<void> {
     return await this._service.sendMail(body);
   }
