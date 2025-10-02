@@ -3,7 +3,6 @@ import { CreateCommand } from '../create.command';
 import {
   E_COMMERCE,
   MAX_GENERATE_CODE_LENGTH,
-  MIN_GENERATE_CODE_LENGTH,
   TRANSACTION_MANAGER_SERVICE,
   WRITE_USER_PROFILE_REPOSITORY,
   WRITE_USER_REPOSITORY,
@@ -21,7 +20,7 @@ import { RoleOrmEntity } from '@src/common/infrastructure/database/typeorms/enti
 import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/permission.orm';
 import { _checkColumnDuplicate } from '@src/common/utils/check-column-duplicate-orm.util';
 import { IWriteUserProfileRepository } from '../../interfaces/user-profile.interface';
-import { generateUniqueCode } from '@src/common/utils/generate-code.util';
+import { generateUniqueNo } from '@src/common/utils/generate-code.util';
 
 @CommandHandler(CreateCommand)
 export class CreateHandler implements ICommandHandler<CreateCommand, any> {
@@ -101,16 +100,15 @@ export class CreateHandler implements ICommandHandler<CreateCommand, any> {
   }
 
   async generateUniqueCustomerCode(manager: EntityManager): Promise<string> {
-    return generateUniqueCode(
-      E_COMMERCE,
+    return generateUniqueNo(
+      MAX_GENERATE_CODE_LENGTH,
       async (code) => {
         const existing = await manager.findOne(UserOrmEntity, {
           where: { user_no: code },
         });
         return !!existing;
       },
-      MIN_GENERATE_CODE_LENGTH,
-      MAX_GENERATE_CODE_LENGTH,
+      E_COMMERCE,
     );
   }
 }

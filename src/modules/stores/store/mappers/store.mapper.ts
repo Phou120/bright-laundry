@@ -79,7 +79,7 @@ export class StoreDataAccessMapper {
     const village = ormData.village
       ? {
           id: ormData.village.id,
-          name: ormData.village.name,
+          name: ormData.village.name_lo,
         }
       : null;
 

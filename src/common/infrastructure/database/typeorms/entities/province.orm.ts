@@ -18,11 +18,11 @@ export class ProvinceOrmEntity {
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
-  name?: string;
+  name_lo?: string;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
-  prefix?: string;
+  name_en?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

@@ -21,7 +21,11 @@ export class VillageOrmEntity {
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
-  name?: string;
+  name_lo?: string;
+
+  @Index()
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  name_en?: string;
 
   @Index()
   @Column({ type: 'int', unsigned: true, nullable: true })

@@ -7,6 +7,7 @@ import { SupplierModule } from './suppliers/supplier.module';
 import { TagModule } from './tags/tag.module';
 import { TaxModule } from './tax/tax.module';
 import { StoreModule } from './stores/store.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { StoreModule } from './stores/store.module';
     TagModule,
     TaxModule,
     StoreModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],
