@@ -144,13 +144,13 @@ export class ProvinceSeeder {
     ];
 
     for (const item of items) {
-      const existingItem = await _respository.findOne({
-        where: { name: item.name },
-      });
-      if (!existingItem) {
-        const items = _respository.create(item);
-        await _respository.save(items);
-      }
+      // const existingItem = await _respository.findOne({
+      //   where: { name: item.name },
+      // });
+      // if (!existingItem) {
+      //   const items = _respository.create(item);
+      //   await _respository.save(items);
+      // }
     }
     await this._helper.executingLog(this.SEEDER_NAME, seederLogRepo);
   }

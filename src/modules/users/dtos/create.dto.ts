@@ -5,6 +5,7 @@ import {
   IsEmail,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -35,7 +36,8 @@ export class CreateDto {
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly tel: string;
 
-  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  // @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsOptional()
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly image: string;
 

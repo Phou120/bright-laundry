@@ -129,20 +129,32 @@ export class UpdateHandler
     manager: EntityManager,
   ): Promise<void> {
     try {
-      const profile = await findOneOrFail(
-        manager,
-        UserProfileOrmEntity,
-        { user_id: user_id },
-        `User ${user_id}`,
-      );
+      if (body.image) {
+        const profile = await findOneOrFail(
+          manager,
+          UserProfileOrmEntity,
+          { user_id: user_id },
+          `User ${user_id}`,
+        );
 
-      const profile_id = profile.id;
+        const profile_id = profile.id;
 
-      await this._writeUserProfileRepository.update(profile_id, body, manager);
+        await this._writeUserProfileRepository.update(
+          profile_id,
+          body,
+          manager,
+        );
+      }
     } catch (e) {
       console.log(e);
-      const profile = body as unknown as CreateDto;
-      await this._writeUserProfileRepository.create(profile, user_id, manager);
+      if (body.image) {
+        const profile = body as unknown as CreateDto;
+        await this._writeUserProfileRepository.create(
+          profile,
+          user_id,
+          manager,
+        );
+      }
     }
   }
 }
