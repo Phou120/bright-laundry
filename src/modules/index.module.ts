@@ -9,6 +9,8 @@ import { TaxModule } from './tax/tax.module';
 import { StoreModule } from './stores/store.module';
 import { CategoryModule } from './category/category.module';
 import { ProvinceModule } from './provinces/province.module';
+import { DistrictModule } from './districts/district.module';
+import { VillageModule } from './villages/village.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { ProvinceModule } from './provinces/province.module';
     StoreModule,
     CategoryModule,
     ProvinceModule,
+    DistrictModule,
+    VillageModule,
   ],
   controllers: [],
   providers: [],
