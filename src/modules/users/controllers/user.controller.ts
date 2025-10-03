@@ -35,6 +35,7 @@ import { SendMailDto } from '../dtos/send-mail.dto';
 import { VerifyOtpDto } from '../dtos/verify-otp.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
+import { User } from '@src/common/decorator/user.decorator';
 
 @Controller('users')
 export class UserController {
@@ -132,6 +133,13 @@ export class UserController {
     @Query() query: UserQueryDto,
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._service.getAll(query);
+  }
+
+  @Get('profile')
+  async getProfile(
+    @User('id') id: number,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._service.getOne(id);
   }
 
   @Get('/:id')
