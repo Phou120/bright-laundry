@@ -8,6 +8,7 @@ import { CreateDto } from '../dtos/create.dto';
 import { UserProfileDataAccessMapper } from './user-profile.mapper';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
 import { UpdateDto } from '../dtos/update.dto';
+import { UpdateProfileDto } from '../dtos/update-profile.dto';
 
 @Injectable()
 export class UserDataAccessMapper {
@@ -15,7 +16,7 @@ export class UserDataAccessMapper {
     private readonly userProfileMapper: UserProfileDataAccessMapper,
   ) {}
   toOrmEntity(
-    userEntity: CreateDto,
+    userEntity: CreateDto | UpdateProfileDto,
     method: OrmEntityMethod,
     password?: string,
     code?: string,

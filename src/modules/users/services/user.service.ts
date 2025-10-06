@@ -30,6 +30,8 @@ import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { ResetPasswordCommand } from '../commands/reset-password.command';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
 import { ChangePasswordCommand } from '../commands/change-password.command';
+import { UpdateProfileDto } from '../dtos/update-profile.dto';
+import { UpdateProfileCommand } from '../commands/update-profile.command';
 
 @Injectable()
 export class UserService implements IUserServiceInterface {
@@ -182,6 +184,17 @@ export class UserService implements IUserServiceInterface {
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._commandBus.execute(
       new ChangePasswordCommand(id, body, manager ?? this._readEntityManager),
+    );
+  }
+
+  // update profile
+  async updateProfile(
+    id: number,
+    body: UpdateProfileDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._commandBus.execute(
+      new UpdateProfileCommand(id, body, manager ?? this._readEntityManager),
     );
   }
 }

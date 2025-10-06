@@ -19,6 +19,7 @@ import { RegisterSuccessListener } from '../listeners/register-success.listener'
 import { VerifyOtpHandler } from '../commands/handler/verify-otp-command.handler';
 import { ResetPasswordHandler } from '../commands/handler/reset-password-command.handler';
 import { ChangePasswordHandler } from '../commands/handler/change-password-command.handler';
+import { UpdateProfileHandler } from '../commands/handler/update-profile-command.handler';
 
 export const commandProviders: Provider[] = [
   CreateHandler,
@@ -41,4 +42,5 @@ export const commandProviders: Provider[] = [
   VerifyOtpHandler,
   ResetPasswordHandler,
   ChangePasswordHandler,
+  UpdateProfileHandler,
 ];

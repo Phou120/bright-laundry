@@ -7,6 +7,7 @@ import { CreateDto } from '../../dtos/create.dto';
 import { UserProfileOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-profile.orm';
 import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
 import { DomainException } from '@src/common/exceptions/domain.exception';
+import { UpdateProfileDto } from '../../dtos/update-profile.dto';
 
 @Injectable()
 export class WriteUserProfileRepository implements IWriteUserProfileRepository {
@@ -50,5 +51,31 @@ export class WriteUserProfileRepository implements IWriteUserProfileRepository {
 
     const updatedProfile = await manager.save(profile);
     return this._dataAccessMapper.toEntity(updatedProfile);
+  }
+
+  async updateProfile(
+    id: number,
+    body: UpdateProfileDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserProfileOrmEntity>> {
+    const ormData = this._dataAccessMapper.toOrmEntity(
+      body,
+      OrmEntityMethod.UPDATE,
+    );
+    ormData.id = id;
+    return this._dataAccessMapper.toEntity(await manager.save(ormData));
+  }
+
+  async createUserProfile(
+    body: UpdateProfileDto,
+    user_id: number,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserProfileOrmEntity>> {
+    const ormData = this._dataAccessMapper.toOrmEntity(
+      body,
+      OrmEntityMethod.CREATE,
+      user_id,
+    );
+    return this._dataAccessMapper.toEntity(await manager.save(ormData));
   }
 }

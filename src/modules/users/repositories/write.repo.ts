@@ -12,6 +12,7 @@ import { UserHasPermissionOrmEntity } from '@src/common/infrastructure/database/
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
 import { UpdateDto } from '../dtos/update.dto';
+import { UpdateProfileDto } from '../dtos/update-profile.dto';
 
 @Injectable()
 export class WriteUserRepository implements IWriteUserRepository {
@@ -171,6 +172,19 @@ export class WriteUserRepository implements IWriteUserRepository {
     const ormData = this._dataAccessMapper.toOrmEntityToStoreUser(
       body,
       password,
+    );
+    ormData.id = id;
+    return this._dataAccessMapper.toEntity(await manager.save(ormData));
+  }
+
+  async updateProfile(
+    id: number,
+    body: UpdateProfileDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    const ormData = this._dataAccessMapper.toOrmEntity(
+      body,
+      OrmEntityMethod.UPDATE,
     );
     ormData.id = id;
     return this._dataAccessMapper.toEntity(await manager.save(ormData));
