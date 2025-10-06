@@ -36,6 +36,7 @@ import { VerifyOtpDto } from '../dtos/verify-otp.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
 import { User } from '@src/common/decorator/user.decorator';
+import { UpdateProfileDto } from '../dtos/update-profile.dto';
 
 @Controller('users')
 export class UserController {
@@ -87,6 +88,14 @@ export class UserController {
     @Body() body: CreateDto,
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._service.create(body);
+  }
+
+  @Put('update-profile')
+  async updateProfile(
+    @User('id') id: number,
+    @Body() body: UpdateProfileDto,
+  ): Promise<any> {
+    return await this._service.updateProfile(id, body);
   }
 
   @Put('/:id')

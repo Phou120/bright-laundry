@@ -65,7 +65,7 @@ export class ReadStoreRepository implements IReadStoreRepository {
         'store_status.id',
         'store_status.name',
         'village.id',
-        'village.name',
+        'village.name_lo',
         'store_open_close_time.id',
         'store_open_close_time.start_day',
         'store_open_close_time.close_day',

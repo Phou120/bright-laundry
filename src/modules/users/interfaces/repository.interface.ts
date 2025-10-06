@@ -7,6 +7,7 @@ import { UpdateDto } from '../dtos/update.dto';
 import { AuthDto } from '../auth/dtos/auth.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
+import { UpdateProfileDto } from '../dtos/update-profile.dto';
 
 export interface IWriteUserRepository {
   create(
@@ -34,6 +35,12 @@ export interface IWriteUserRepository {
   update(
     id: number,
     body: UpdateDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<UserOrmEntity>>;
+
+  updateProfile(
+    id: number,
+    body: UpdateProfileDto,
     manager: EntityManager,
   ): Promise<ResponseResult<UserOrmEntity>>;
 

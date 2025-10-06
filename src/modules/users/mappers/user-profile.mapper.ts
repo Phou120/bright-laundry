@@ -5,11 +5,12 @@ import moment from 'moment';
 import { Timezone } from '@src/common/value-objects/timezone.vo';
 import { DateFormat } from '@src/common/value-objects/format-date.vo';
 import { UserProfileOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-profile.orm';
+import { UpdateProfileDto } from '../dtos/update-profile.dto';
 
 @Injectable()
 export class UserProfileDataAccessMapper {
   toOrmEntity(
-    dto: CreateDto,
+    dto: CreateDto | UpdateProfileDto,
     method: OrmEntityMethod,
     user_id?: number,
   ): UserProfileOrmEntity {
