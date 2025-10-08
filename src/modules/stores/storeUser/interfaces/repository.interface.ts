@@ -16,9 +16,9 @@ export interface IWriteStoreUserRepository {
 export interface IReadStoreUserRepository {
   getAll(
     userId: number,
-    storeId: number,
     query: StoreUserQueryDto,
     manager?: EntityManager,
+    roles?: string[],
   ): Promise<ResponseResult<StoreUserOrmEntity>>;
 
   getById(

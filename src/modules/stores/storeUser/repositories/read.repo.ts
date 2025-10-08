@@ -11,6 +11,7 @@ import {
   ResponseResult,
 } from '@src/common/infrastructure/pagination/pagination.interface';
 import { StoreUserQueryDto } from '../dtos/query/query.dto';
+import { EligiblePersons } from '@src/common/enums/orm-entity-method.enum';
 
 @Injectable()
 export class ReadStoreUserRepository implements IReadStoreUserRepository {
@@ -24,15 +25,15 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
 
   async getAll(
     userId: number,
-    storeId: number,
     query: StoreUserQueryDto,
     manager: EntityManager,
+    roles?: string[],
   ): Promise<ResponseResult<StoreUserOrmEntity>> {
     const queryBuilder = this.createBaseQuery(
       manager ?? this._Orm.manager,
       query,
-      storeId,
       userId,
+      roles,
     );
     const safeQuery: StoreUserQueryDto = {
       ...query,
@@ -52,8 +53,8 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
   private createBaseQuery(
     manager: EntityManager,
     query?: StoreUserQueryDto,
-    storeId?: number,
     userId?: number,
+    roles?: string[],
   ) {
     const queryBuilder = manager
       .createQueryBuilder(StoreUserOrmEntity, 'store_user')
@@ -89,13 +90,11 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
         'userPermissions.display_name',
       ]);
 
-    if (storeId) {
-      queryBuilder.andWhere('store_user.store_id = :storeId', {
-        storeId,
-      });
-    }
-
-    if (userId) {
+    if (
+      roles &&
+      !roles.includes(EligiblePersons.SUPER_ADMIN) &&
+      !roles.includes(EligiblePersons.ADMIN)
+    ) {
       queryBuilder.andWhere('store_user.user_id != :userId', {
         userId,
       });

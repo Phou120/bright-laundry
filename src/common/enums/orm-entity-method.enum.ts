@@ -31,3 +31,8 @@ export enum EnumStoreStatus {
   OPEN = 2,
   CLOSE = 3,
 }
+
+export enum EligiblePersons {
+  SUPER_ADMIN = 'super-admin',
+  ADMIN = 'admin',
+}

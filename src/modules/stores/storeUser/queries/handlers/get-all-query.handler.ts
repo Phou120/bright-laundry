@@ -5,8 +5,8 @@ import { StoreUserOrmEntity } from '@src/common/infrastructure/database/typeorms
 import { HttpStatus, Inject } from '@nestjs/common';
 import { READ_STORE_USER_REPOSITORY } from '@src/common/constants/inject-key';
 import { IReadStoreUserRepository } from '../../interfaces/repository.interface';
-import { findOneOrFail } from '@src/common/utils/fine-one-orm.utils';
 import { DomainException } from '@src/common/exceptions/domain.exception';
+import { UserOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user.orm';
 
 @QueryHandler(GetAllStoreUserQuery)
 export class GetAllStoreUserQueryHandler
@@ -21,25 +21,41 @@ export class GetAllStoreUserQueryHandler
   async execute(
     query: GetAllStoreUserQuery,
   ): Promise<ResponseResult<StoreUserOrmEntity>> {
-    const store = await findOneOrFail(
-      query.manager,
-      StoreUserOrmEntity,
-      { user_id: query.userId },
-      `store id ${query.userId}`,
-    );
+    // const store = await findOneOrFail(
+    //   query.manager,
+    //   StoreUserOrmEntity,
+    //   { user_id: query.userId },
+    //   `store id ${query.userId}`,
+    // );
 
-    const store_id = store.store_id;
+    // const store_id = store.store_id;
 
-    if (!store_id) {
+    // if (!store_id) {
+    //   throw new DomainException('errors.not_found', HttpStatus.NOT_FOUND, {
+    //     property: `${store_id}`,
+    //   });
+    // }
+
+    const user = await query.manager.findOne(UserOrmEntity, {
+      where: { id: query.userId },
+      relations: ['roles'],
+    });
+
+    if (!user) {
       throw new DomainException('errors.not_found', HttpStatus.NOT_FOUND, {
-        property: `${store_id}`,
+        property: `${query.userId}`,
       });
     }
+
+    const roles = user.roles?.map((r: any) => r.name) ?? [];
+
+    console.log('object', roles);
+
     return await this._read.getAll(
       query.userId,
-      store_id,
       query.query,
       query.manager,
+      roles,
     );
   }
 }
