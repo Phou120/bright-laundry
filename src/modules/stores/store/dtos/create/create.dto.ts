@@ -6,6 +6,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Matches,
   MinLength,
@@ -46,6 +47,7 @@ export class CreateDto {
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly store_name: string;
 
+  @IsOptional()
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly address: string;
 
@@ -58,15 +60,18 @@ export class CreateDto {
   @IsEmail({}, { message: i18nValidationMessage('validation.IS_EMAIL') })
   readonly public_email: string;
 
-  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  // @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsOptional()
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly image: string;
 
-  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  // @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsOptional()
   @IsNumber({}, { message: i18nValidationMessage('validation.IS_NUMBER') })
   readonly latitude: number;
 
-  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  // @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsOptional()
   @IsNumber({}, { message: i18nValidationMessage('validation.IS_NUMBER') })
   readonly longitude: number;
 
@@ -78,9 +83,11 @@ export class CreateDto {
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly account_number: string;
 
+  @IsOptional()
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly description: string;
 
+  @IsOptional()
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly policy: string;
 
