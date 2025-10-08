@@ -21,7 +21,7 @@ export class SeederService {
     @Inject() private _roleSeeder: RoleSeeder,
     @Inject() private _userSeeder: UsersSeeder,
     @Inject() private _permissionGroupSeeder: PermissionGroupSeeder,
-    @Inject() private _permissionSeeder: PermissionSeeder,
+    // @Inject() private _permissionSeeder: PermissionSeeder,
     @Inject() private _provinceSeeder: ProvinceSeeder,
     @Inject() private _districtSeeder: DistrictSeeder,
     @Inject() private _taxSeeder: TaxSeeder,
@@ -36,7 +36,7 @@ export class SeederService {
           await this._roleSeeder.seed(manager);
           await this._userSeeder.seed(manager);
           await this._permissionGroupSeeder.seed(manager);
-          await this._permissionSeeder.seed(manager);
+          // await this._permissionSeeder.seed(manager);
           await this._provinceSeeder.seed(manager);
           await this._districtSeeder.seed(manager);
           await this._taxSeeder.seed(manager);
