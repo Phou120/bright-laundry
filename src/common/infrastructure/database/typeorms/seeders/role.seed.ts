@@ -45,6 +45,18 @@ export class RoleSeeder {
         created_at: currentDateTime,
         updated_at: currentDateTime,
       },
+      {
+        name: 'storemanager',
+        display_name: 'Storemanager',
+        created_at: currentDateTime,
+        updated_at: currentDateTime,
+      },
+      {
+        name: 'store-user',
+        display_name: 'Store User',
+        created_at: currentDateTime,
+        updated_at: currentDateTime,
+      },
     ];
 
     for (const item of items) {
