@@ -62,6 +62,7 @@ export class ReadStoreRepository implements IReadStoreRepository {
         'user.id',
         'user.email',
         'user.name',
+        'user.surname',
         'store_status.id',
         'store_status.name',
         'village.id',

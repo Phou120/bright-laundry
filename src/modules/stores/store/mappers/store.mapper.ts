@@ -56,6 +56,7 @@ export class StoreDataAccessMapper {
           id: ormData.store_users[0].user.id,
           email: ormData.store_users[0].user.email,
           name: ormData.store_users[0].user.name,
+          surname: ormData.store_users[0].user.surname,
         }
       : null;
 
