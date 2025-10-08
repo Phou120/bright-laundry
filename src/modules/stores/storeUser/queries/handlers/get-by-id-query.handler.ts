@@ -36,22 +36,9 @@ export class GetByIdStoreUserQueryHandler
       `store id ${query.id}`,
     );
 
-    const store = await findOneOrFail(
-      query.manager,
-      StoreUserOrmEntity,
-      { user_id: query.userId },
-      `store id ${query.userId}`,
-    );
-
-    const store_id = store.store_id;
+    const store_id = store_user.store_id;
 
     if (!store_id) {
-      throw new DomainException('errors.not_found', HttpStatus.NOT_FOUND, {
-        property: `${query.id}`,
-      });
-    }
-
-    if (store_id !== store_user.store_id) {
       throw new DomainException('errors.not_found', HttpStatus.NOT_FOUND, {
         property: `${query.id}`,
       });
