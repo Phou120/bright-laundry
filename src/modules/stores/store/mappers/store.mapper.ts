@@ -34,7 +34,7 @@ export class StoreDataAccessMapper {
     ormEntity.description = dto.description;
     ormEntity.policy = dto.policy;
     ormEntity.village_id = dto.village_id;
-    ormEntity.store_status_id = EnumStoreStatus.PENDING;
+    ormEntity.store_status_id = EnumStoreStatus.OPEN;
 
     if (method === OrmEntityMethod.CREATE) {
       if (tax_id) {
