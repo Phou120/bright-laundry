@@ -104,7 +104,7 @@ export class StoreDataAccessMapper {
       image: ormData.image,
       image_url: image_url,
       short_name: ormData.short_name,
-      store_no: ormData.store_no, //
+      store_code: ormData.store_no, //
       address: ormData.address,
       phone_number: ormData.phone_number,
       public_email: ormData.public_email,
