@@ -19,6 +19,12 @@ export interface IWriteStoreRepository {
   ): Promise<ResponseResult<StoreOrmEntity>>;
 
   delete(id: number, manager?: EntityManager): Promise<void>;
+
+  updateStatus(
+    id: number,
+    status_id: number,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<StoreOrmEntity>>;
 }
 
 export interface IReadStoreRepository {

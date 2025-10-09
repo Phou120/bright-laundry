@@ -4,6 +4,7 @@ import { GetAllStoreQueryHandler } from '../queries/handlers/get-all-query.handl
 import { GetByIdStoreQueryHandler } from '../queries/handlers/get-by-id-query.handler';
 import { UpdateCommandHandler } from '../commands/handlers/update-command.handler';
 import { DeleteHandler } from '../commands/handlers/delete-command.handler';
+import { UpdateStatusCommandHandler } from '../commands/handlers/update-status-command.handler';
 
 export const commandProviders: Provider[] = [
   CreateHandler,
@@ -11,4 +12,5 @@ export const commandProviders: Provider[] = [
   GetByIdStoreQueryHandler,
   UpdateCommandHandler,
   DeleteHandler,
+  UpdateStatusCommandHandler,
 ];

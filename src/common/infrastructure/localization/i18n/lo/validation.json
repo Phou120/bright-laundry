@@ -37,5 +37,6 @@
   "MIN_LENGTH": "{property} ຕ້ອງມີຄວາມຍາວຢ່າງນ້ອຍ {min} ຕົວອັກສອນ",
   "MAX_LENGTH": "{property} ຕ້ອງມີຄວາມຍາວບໍ່ເກີນ {max} ຕົວອັກສອນ",
   "PASSWORDS_DO_NOT_MATCH": "{property} ບໍ່ກົງກັບລະຫັດຢືນຢັນ",
-  "START_BEFORE_END": "{property} ເລີ່ມກ່ອນເວລາສິ້ນສຸດ end_time"
+  "START_BEFORE_END": "{property} ເລີ່ມກ່ອນເວລາສິ້ນສຸດ end_time",
+  "IS_ENUM": "{property} ຕ້ອງເປັນຫນຶ່ງໃນຄ່າຕໍ່ໄປນີ້: open, close"
 }

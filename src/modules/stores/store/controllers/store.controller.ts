@@ -16,6 +16,7 @@ import { ResponseResult } from '@src/common/infrastructure/pagination/pagination
 import { StoreOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/store.orm';
 import { StoreQueryDto } from '../dtos/query/query.dto';
 import { UpdateDto } from '../dtos/create/update.dto';
+import { UpdateStatusDto } from '../dtos/create/update-status.dto';
 
 @Controller('stores')
 export class StoreController {
@@ -44,6 +45,14 @@ export class StoreController {
     @Body() dto: UpdateDto,
   ): Promise<ResponseResult<StoreOrmEntity>> {
     return await this._service.update(id, dto);
+  }
+
+  @Put('update-status/:id')
+  async updateStatus(
+    @Param('id') id: number,
+    @Body() dto: UpdateStatusDto,
+  ): Promise<ResponseResult<StoreOrmEntity>> {
+    return await this._service.updateStatus(id, dto);
   }
 
   @Get(':id')

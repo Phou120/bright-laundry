@@ -4,6 +4,7 @@ import { StoreOrmEntity } from '@src/common/infrastructure/database/typeorms/ent
 import { EntityManager } from 'typeorm';
 import { StoreQueryDto } from '../dtos/query/query.dto';
 import { UpdateDto } from '../dtos/create/update.dto';
+import { UpdateStatusDto } from '../dtos/create/update-status.dto';
 
 export interface IStoreServiceInterface {
   create(
@@ -24,6 +25,12 @@ export interface IStoreServiceInterface {
   update(
     id: number,
     dto: UpdateDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<StoreOrmEntity>>;
+
+  updateStatus(
+    id: number,
+    dto: UpdateStatusDto,
     manager?: EntityManager,
   ): Promise<ResponseResult<StoreOrmEntity>>;
 

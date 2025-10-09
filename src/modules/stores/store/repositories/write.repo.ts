@@ -41,4 +41,15 @@ export class WriteStoreRepository implements IWriteStoreRepository {
   async delete(id: number, manager: EntityManager): Promise<void> {
     await manager.softDelete(StoreOrmEntity, { id });
   }
+
+  async updateStatus(
+    id: number,
+    status_id: number,
+    manager: EntityManager,
+  ): Promise<ResponseResult<StoreOrmEntity>> {
+    const ormData = new StoreOrmEntity();
+    ormData.id = id;
+    ormData.store_status_id = status_id;
+    return this._dataAccessMapper.toEntity(await manager.save(ormData));
+  }
 }

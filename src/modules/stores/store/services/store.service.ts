@@ -13,6 +13,8 @@ import { GetByIdStoreQuery } from '../queries/get-by-id.query';
 import { UpdateDto } from '../dtos/create/update.dto';
 import { UpdateCommand } from '../commands/update.command';
 import { DeleteCommand } from '../commands/delete.command';
+import { UpdateStatusDto } from '../dtos/create/update-status.dto';
+import { UpdateStatusCommand } from '../commands/update-status.command';
 
 @Injectable()
 export class StoreService implements IStoreServiceInterface {
@@ -66,6 +68,16 @@ export class StoreService implements IStoreServiceInterface {
   ): Promise<ResponseResult<StoreOrmEntity>> {
     return await this._commandBus.execute(
       new DeleteCommand(id, manager ?? this._readEntityManager),
+    );
+  }
+
+  async updateStatus(
+    id: number,
+    dto: UpdateStatusDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<StoreOrmEntity>> {
+    return await this._commandBus.execute(
+      new UpdateStatusCommand(id, dto, manager ?? this._readEntityManager),
     );
   }
 }

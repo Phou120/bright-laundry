@@ -32,6 +32,12 @@ export enum EnumStoreStatus {
   CLOSE = 3,
 }
 
+export enum EnumStoreStatusString {
+  PENDING = 'pending',
+  OPEN = 'open',
+  CLOSE = 'close',
+}
+
 export enum EligiblePersons {
   SUPER_ADMIN = 'super-admin',
   ADMIN = 'admin',
