@@ -162,4 +162,6 @@ export class UserController {
   async delete(@Param('id') id: number): Promise<void> {
     return await this._service.delete(id);
   }
+
+  // test
 }
