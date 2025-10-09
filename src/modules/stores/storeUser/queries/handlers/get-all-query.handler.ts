@@ -49,13 +49,12 @@ export class GetAllStoreUserQueryHandler
 
     const roles = user.roles?.map((r: any) => r.name) ?? [];
 
-    console.log('object', roles);
+    const store = await query.manager.findOne(StoreUserOrmEntity, {
+      where: { user_id: user.id },
+    });
 
-    return await this._read.getAll(
-      query.userId,
-      query.query,
-      query.manager,
-      roles,
-    );
+    const store_id = store?.store_id ?? undefined;
+
+    return await this._read.getAll(query.query, query.manager, roles, store_id);
   }
 }

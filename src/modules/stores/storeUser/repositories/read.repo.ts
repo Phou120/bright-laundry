@@ -24,14 +24,14 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
   ) {}
 
   async getAll(
-    userId: number,
     query: StoreUserQueryDto,
     manager: EntityManager,
     roles?: string[],
+    store_id?: number,
   ): Promise<ResponseResult<StoreUserOrmEntity>> {
     const queryBuilder = this.createBaseQuery(
       manager ?? this._Orm.manager,
-      userId,
+      store_id,
       roles,
     );
     const safeQuery: StoreUserQueryDto = {
@@ -51,7 +51,7 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
 
   private createBaseQuery(
     manager: EntityManager,
-    userId?: number,
+    store_id?: number,
     roles?: string[],
   ) {
     const queryBuilder = manager
@@ -93,8 +93,8 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
       !roles.includes(EligiblePersons.SUPER_ADMIN) &&
       !roles.includes(EligiblePersons.ADMIN)
     ) {
-      queryBuilder.andWhere('store_user.user_id = :userId', {
-        userId,
+      queryBuilder.andWhere('store_user.store_id = :store_id', {
+        store_id,
       });
     }
 

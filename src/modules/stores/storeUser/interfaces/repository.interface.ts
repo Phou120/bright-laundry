@@ -15,10 +15,10 @@ export interface IWriteStoreUserRepository {
 
 export interface IReadStoreUserRepository {
   getAll(
-    userId: number,
     query: StoreUserQueryDto,
     manager?: EntityManager,
     roles?: string[],
+    store_id?: number,
   ): Promise<ResponseResult<StoreUserOrmEntity>>;
 
   getById(
