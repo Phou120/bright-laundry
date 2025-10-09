@@ -54,6 +54,8 @@ export class ReadStoreRepository implements IReadStoreRepository {
       .leftJoin('store_user.user', 'user')
       .leftJoin('store.store_status', 'store_status')
       .leftJoin('store.village', 'village')
+      .leftJoin('village.district', 'district')
+      .leftJoin('district.province', 'province')
       .leftJoin('store.store_open_close_times', 'store_open_close_time')
       .addSelect([
         'store_user.id',
@@ -72,6 +74,10 @@ export class ReadStoreRepository implements IReadStoreRepository {
         'store_open_close_time.close_day',
         'store_open_close_time.start_time',
         'store_open_close_time.end_time',
+        'district.id',
+        'district.name_lo',
+        'province.id',
+        'province.name_lo',
       ]);
 
     if (query?.status) {

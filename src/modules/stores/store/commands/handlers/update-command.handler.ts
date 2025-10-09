@@ -65,7 +65,7 @@ export class UpdateCommandHandler
         const store_user = await findOneOrFail(
           manager,
           StoreUserOrmEntity,
-          { id: existingStore.id },
+          { store_id: existingStore.id },
           `Store user ${existingStore.id}`,
         );
 

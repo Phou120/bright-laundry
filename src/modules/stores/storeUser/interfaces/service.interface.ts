@@ -4,6 +4,7 @@ import { ResponseResult } from '@src/common/infrastructure/pagination/pagination
 import { StoreUserOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/store-user.orm';
 import { StoreUserQueryDto } from '../dtos/query/query.dto';
 import { UpdateDto } from '../dtos/create/update.dto';
+import { CreateAdminStoreUserDto } from '../dtos/create/admin-create.dto';
 
 export interface IStoreUserServiceInterface {
   create(
@@ -35,4 +36,9 @@ export interface IStoreUserServiceInterface {
     id: number,
     manager?: EntityManager,
   ): Promise<ResponseResult<void>>;
+
+  adminCreate(
+    dto: CreateAdminStoreUserDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<StoreUserOrmEntity>>;
 }

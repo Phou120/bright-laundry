@@ -13,6 +13,13 @@ export class VillageDataAccessMapper {
           name: ormEntity.district.name_lo,
         }
       : null;
+
+    const province = ormEntity.district?.province
+      ? {
+          id: ormEntity.district.province.id,
+          name: ormEntity.district.province.name_lo,
+        }
+      : null;
     return {
       id: ormEntity.id,
       name: ormEntity.name_lo,
@@ -28,6 +35,7 @@ export class VillageDataAccessMapper {
             .format(DateFormat.DATETIME_READABLE_FORMAT)
         : null,
       district: district,
+      province: province,
     } as unknown as VillageOrmEntity;
   }
 }

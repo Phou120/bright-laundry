@@ -17,6 +17,7 @@ import { StoreUserOrmEntity } from '@src/common/infrastructure/database/typeorms
 import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
 import { StoreUserQueryDto } from '../dtos/query/query.dto';
 import { UpdateDto } from '../dtos/create/update.dto';
+import { CreateAdminStoreUserDto } from '../dtos/create/admin-create.dto';
 
 @Controller('store-users')
 export class StoreUserController {
@@ -31,6 +32,13 @@ export class StoreUserController {
     @Body() dto: CreateStoreUserDto,
   ): Promise<ResponseResult<StoreUserOrmEntity>> {
     return await this._service.create(userId, dto);
+  }
+
+  @Post('admin')
+  async updateById(
+    @Body() dto: CreateAdminStoreUserDto,
+  ): Promise<ResponseResult<StoreUserOrmEntity>> {
+    return await this._service.adminCreate(dto);
   }
 
   @Put(':id')

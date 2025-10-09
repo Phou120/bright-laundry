@@ -84,6 +84,20 @@ export class StoreDataAccessMapper {
         }
       : null;
 
+    const district = ormData.village?.district
+      ? {
+          id: ormData.village.district.id,
+          name: ormData.village.district.name_lo,
+        }
+      : null;
+
+    const province = ormData.village?.district?.province
+      ? {
+          id: ormData.village.district.province.id,
+          name: ormData.village.district.province.name_lo,
+        }
+      : null;
+
     return {
       id: ormData.id,
       name: ormData.name,
@@ -112,6 +126,8 @@ export class StoreDataAccessMapper {
       user: user,
       store_status: store_status,
       village: village,
+      district: district,
+      province: province,
       open_close_time: open_close_time,
     } as unknown as StoreOrmEntity;
   }

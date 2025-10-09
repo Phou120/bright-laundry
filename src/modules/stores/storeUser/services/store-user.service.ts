@@ -13,6 +13,8 @@ import { GetByIdStoreUserQuery } from '../queries/get-by-id.query';
 import { UpdateDto } from '../dtos/create/update.dto';
 import { UpdateStoreUserCommand } from '../commands/update.command';
 import { DeleteStoreUserCommand } from '../commands/delete.command';
+import { CreateAdminStoreUserDto } from '../dtos/create/admin-create.dto';
+import { CreateAdminStoreUserCommand } from '../commands/admin-crerate.command';
 
 @Injectable()
 export class StoreUserService implements IStoreUserServiceInterface {
@@ -82,6 +84,15 @@ export class StoreUserService implements IStoreUserServiceInterface {
         id,
         manager ?? this._readEntityManager,
       ),
+    );
+  }
+
+  async adminCreate(
+    dto: CreateAdminStoreUserDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<StoreUserOrmEntity>> {
+    return await this._commandBus.execute(
+      new CreateAdminStoreUserCommand(dto, manager ?? this._readEntityManager),
     );
   }
 }

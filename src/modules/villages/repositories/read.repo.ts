@@ -50,7 +50,15 @@ export class ReadVillageRepository implements IReadVillageRepository {
     const queryBuilder = manager
       .createQueryBuilder(VillageOrmEntity, 'village')
       .leftJoin('village.district', 'district')
-      .addSelect(['district.id', 'district.name_lo', 'district.name_en']);
+      .leftJoin('district.province', 'province')
+      .addSelect([
+        'district.id',
+        'district.name_lo',
+        'district.name_en',
+        'province.id',
+        'province.name_lo',
+        'province.name_en',
+      ]);
 
     // Apply district filter
     if (district_id) {

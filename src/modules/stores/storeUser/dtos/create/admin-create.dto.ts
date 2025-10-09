@@ -5,13 +5,18 @@ import {
   IsEmail,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
 
-export class CreateStoreUserDto {
+export class CreateAdminStoreUserDto {
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsNumber({}, { message: i18nValidationMessage('validation.IS_NUMBER') })
+  readonly store_id: number;
+
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   @IsEmail({}, { message: i18nValidationMessage('validation.IS_EMAIL') })
@@ -36,7 +41,7 @@ export class CreateStoreUserDto {
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly tel: string;
 
-  // @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  //   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsOptional()
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   readonly image: string;
