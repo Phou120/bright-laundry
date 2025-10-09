@@ -31,7 +31,6 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
   ): Promise<ResponseResult<StoreUserOrmEntity>> {
     const queryBuilder = this.createBaseQuery(
       manager ?? this._Orm.manager,
-      query,
       userId,
       roles,
     );
@@ -52,7 +51,6 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
 
   private createBaseQuery(
     manager: EntityManager,
-    query?: StoreUserQueryDto,
     userId?: number,
     roles?: string[],
   ) {
@@ -95,7 +93,7 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
       !roles.includes(EligiblePersons.SUPER_ADMIN) &&
       !roles.includes(EligiblePersons.ADMIN)
     ) {
-      queryBuilder.andWhere('store_user.user_id != :userId', {
+      queryBuilder.andWhere('store_user.user_id = :userId', {
         userId,
       });
     }
