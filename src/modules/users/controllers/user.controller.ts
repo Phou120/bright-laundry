@@ -38,7 +38,7 @@ import { ChangePasswordDto } from '../dtos/change-password.dto';
 import { User } from '@src/common/decorator/user.decorator';
 import { UpdateProfileDto } from '../dtos/update-profile.dto';
 
-@Controller('users')
+@Controller()
 export class UserController {
   constructor(
     @Inject(USER_SERVICE)
@@ -46,7 +46,7 @@ export class UserController {
   ) {}
 
   @Public()
-  @Post('upload-single-file')
+  @Post('users/upload-single-file')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: multerMemoryStorage,
@@ -65,7 +65,7 @@ export class UserController {
   }
 
   @Public()
-  @Post('upload-multiple-files')
+  @Post('users/upload-multiple-files')
   @UseInterceptors(
     AnyFilesInterceptor({ storage: multerMemoryStorage }),
     new FileValidationInterceptor(
@@ -83,14 +83,14 @@ export class UserController {
   }
 
   @Public()
-  @Post()
+  @Post('users')
   async create(
     @Body() body: CreateDto,
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._service.create(body);
   }
 
-  @Put('update-profile')
+  @Put('users/update-profile')
   async updateProfile(
     @User('id') id: number,
     @Body() body: UpdateProfileDto,
@@ -98,7 +98,7 @@ export class UserController {
     return await this._service.updateProfile(id, body);
   }
 
-  @Put('/:id')
+  @Put('users/:id')
   async update(
     @Param('id') id: number,
     @Body() body: UpdateDto,
@@ -107,13 +107,13 @@ export class UserController {
   }
 
   @Public()
-  @Post('send-mail/otp')
+  @Post('users/send-mail/otp')
   async sendMail(@Body() body: SendMailDto): Promise<void> {
     return await this._service.sendMail(body);
   }
 
   @Public()
-  @Post('verify-otp')
+  @Post('users/verify-otp')
   async verifyOtp(
     @Body() body: VerifyOtpDto,
   ): Promise<ResponseResult<UserOrmEntity>> {
@@ -121,7 +121,7 @@ export class UserController {
   }
 
   @Public()
-  @Put('reset-password/:id')
+  @Put('users/reset-password/:id')
   async resetPassword(
     @Param('id') id: number,
     @Body() body: ResetPasswordDto,
@@ -129,7 +129,7 @@ export class UserController {
     return await this._service.resetPassword(id, body);
   }
 
-  @Put('/change-password/:id')
+  @Put('users/change-password/:id')
   async changePassword(
     @Param('id') id: number,
     @Body() body: ChangePasswordDto,
@@ -137,31 +137,48 @@ export class UserController {
     return await this._service.changePassword(id, body);
   }
 
-  @Get()
+  @Get('users')
   async getAll(
     @Query() query: UserQueryDto,
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._service.getAll(query);
   }
 
-  @Get('profile')
+  @Get('users/profile')
   async getProfile(
     @User('id') id: number,
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._service.getOne(id);
   }
 
-  @Get('/:id')
+  @Get('users/:id')
   async getOne(
     @Param('id') id: number,
   ): Promise<ResponseResult<UserOrmEntity>> {
     return await this._service.getOne(id);
   }
 
-  @Delete('/:id')
+  @Delete('users/:id')
   async delete(@Param('id') id: number): Promise<void> {
     return await this._service.delete(id);
   }
 
-  // test
+  @Public()
+  @Post('image/upload-single-file')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: multerMemoryStorage,
+    }),
+    new FileValidationInterceptor(
+      new FileMimeTypeValidator(IMAGE_ALLOW_MIME_TYPE),
+      new FileSizeValidator(MAX_IMAGE_SIZE),
+      'image',
+    ),
+  )
+  async uploadImage(
+    @Body() body: UploadDto,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<{ imageUrl: string }> {
+    return await this._service.uploadFile(file);
+  }
 }
