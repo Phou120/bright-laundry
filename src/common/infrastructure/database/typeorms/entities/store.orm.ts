@@ -17,6 +17,7 @@ import { EnumShipping } from '@src/common/enums/orm-entity-method.enum';
 import { StoreUserOrmEntity } from './store-user.orm';
 import { StoreOpenCloseTimeOrmEntity } from './store-open-close-time.orm';
 import { VillageOrmEntity } from './village.orm';
+import { ProductAttributeOrmEntity } from './product-attribute.orm';
 
 @Entity('stores')
 export class StoreOrmEntity {
@@ -129,4 +130,10 @@ export class StoreOrmEntity {
     (storeOpenCloseTime) => storeOpenCloseTime.store,
   )
   store_open_close_times: Relation<StoreOpenCloseTimeOrmEntity[]>;
+
+  @OneToMany(
+    () => ProductAttributeOrmEntity,
+    (productAttribute) => productAttribute.store,
+  )
+  product_attributes: Relation<ProductAttributeOrmEntity[]>;
 }

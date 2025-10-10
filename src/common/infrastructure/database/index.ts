@@ -3,6 +3,7 @@ import { DistrictOrmEntity } from './typeorms/entities/district.orm';
 import { PaymentMethodOrmEntity } from './typeorms/entities/payment-method.orm';
 import { PermissionGroupOrmEntity } from './typeorms/entities/permission-group.orm';
 import { PermissionOrmEntity } from './typeorms/entities/permission.orm';
+import { ProductAttributeOrmEntity } from './typeorms/entities/product-attribute.orm';
 import { ProductBrandOrmEntity } from './typeorms/entities/product-brand.orm';
 import { ProductCategoryOrmEntity } from './typeorms/entities/product-categoy.orm';
 import { ProvinceOrmEntity } from './typeorms/entities/province.orm';
@@ -48,4 +49,5 @@ export const entities = [
   StoreOpenCloseTimeOrmEntity,
   RolePermissionOrmEntity,
   ProductCategoryOrmEntity,
+  ProductAttributeOrmEntity,
 ];
