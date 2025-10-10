@@ -11,6 +11,7 @@ import { CategoryModule } from './category/category.module';
 import { ProvinceModule } from './provinces/province.module';
 import { DistrictModule } from './districts/district.module';
 import { VillageModule } from './villages/village.module';
+import { ProductAttributeModule } from './productAttribute/product-attribute.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { VillageModule } from './villages/village.module';
     ProvinceModule,
     DistrictModule,
     VillageModule,
+    ProductAttributeModule,
   ],
   controllers: [],
   providers: [],
