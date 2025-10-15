@@ -34,6 +34,21 @@ export class StoreUserDataAccessMapper {
           name: ormData.user.name,
           surname: ormData.user.surname,
           tel: ormData.user.tel,
+          created_at: ormData.user.created_at
+            ? moment(ormData.user.created_at)
+                .tz(Timezone.LAOS)
+                .format(DateFormat.DATETIME_READABLE_FORMAT)
+            : null,
+          updated_at: ormData.user.updated_at
+            ? moment(ormData.user.updated_at)
+                .tz(Timezone.LAOS)
+                .format(DateFormat.DATETIME_READABLE_FORMAT)
+            : null,
+        }
+      : null;
+    const store = ormData.store
+      ? {
+          ...ormData.store,
         }
       : null;
     const user_profile = ormData.user?.user_profile
@@ -77,6 +92,7 @@ export class StoreUserDataAccessMapper {
             .tz(Timezone.LAOS)
             .format(DateFormat.DATETIME_READABLE_FORMAT)
         : null,
+      store: store,
       user: user,
       user_profile: user_profile,
       roles: roles,

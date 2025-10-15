@@ -27,10 +27,25 @@ export class ReadProductBrandRepository implements IReadBrandRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<ProductBrandOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
+
+    const allowedSortFields = {
+      name: 'product_brand.name',
+      created_at: 'product_brand.created_at',
+      updated_at: 'product_brand.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'product_brand.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy =
+      allowedSortFields[sortBy as keyof typeof allowedSortFields] ||
+      'product_brand.id';
+
     const safeQuery: ProductBrandQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'product_brand.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     const data = await this._paginationService.paginate(

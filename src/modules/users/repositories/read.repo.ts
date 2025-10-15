@@ -32,10 +32,35 @@ export class ReadUserRepository implements IReadUserRepository {
     manager?: EntityManager,
   ): Promise<ResponseResult<UserOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
+
+    // Define allowed sort fields and their proper aliases
+    const allowedSortFields = {
+      name: 'users.name',
+      surname: 'users.surname',
+      email: 'users.email',
+      created_at: 'users.created_at',
+      updated_at: 'users.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'users.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy = allowedSortFields[sortBy] || 'users.id';
+
+    // const safeQuery: UserQueryDto = {
+    //   ...query,
+    //   sort_by: sortBy,
+    //   sort_order: query?.sort_order ?? 'DESC',
+    // };
+
+    console.log('sortBY', sortBy);
+
     const safeQuery: UserQueryDto = {
-      use_cursor: query?.use_cursor ?? false,
       ...query,
-      sort_by: query?.sort_by ?? 'users.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
+      use_cursor: query?.use_cursor ?? false, // Provide a default value of false for use_cursor
     };
 
     const data = await this._paginationService.paginate(

@@ -30,10 +30,28 @@ export class ReadStoreRepository implements IReadStoreRepository {
       manager ?? this._Orm.manager,
       query,
     );
+
+    // Define allowed sort fields and their proper aliases
+    const allowedSortFields = {
+      name: 'store.name',
+      short_name: 'store.short_name',
+      public_email: 'store.public_email',
+      phone_number: 'store.phone_number',
+      store_no: 'store.store_no',
+      created_at: 'store.created_at',
+      updated_at: 'store.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'store.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy = allowedSortFields[sortBy] || 'store.id';
+
     const safeQuery: StoreQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'store.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     // const count_item = await this.getCountItem(manager ?? this._Orm.manager);

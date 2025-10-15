@@ -26,7 +26,11 @@ export class PaginationDto {
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false, description: 'Sort field' })
+  @ApiProperty({
+    required: false,
+    description:
+      'Sort field. Available options depend on the endpoint (e.g., store.id, store.name, user.name, created_at, id)',
+  })
   sort_by?: string;
 
   @IsString()

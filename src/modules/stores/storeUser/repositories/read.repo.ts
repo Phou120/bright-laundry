@@ -29,15 +29,32 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
     roles?: string[],
     store_id?: number,
   ): Promise<ResponseResult<StoreUserOrmEntity>> {
+    const storeId = Number(query.store_id);
     const queryBuilder = this.createBaseQuery(
       manager ?? this._Orm.manager,
       store_id,
       roles,
+      storeId,
     );
+
+    // Define allowed sort fields and their proper aliases
+    const allowedSortFields = {
+      store_name: 'store.name',
+      user_name: 'user.name',
+      created_at: 'user.created_at',
+      updated_at: 'user.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'store_user.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy = allowedSortFields[sortBy] || 'store_user.id';
+
     const safeQuery: StoreUserQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'store_user.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     const data = await this._paginationService.paginate(
@@ -53,6 +70,7 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
     manager: EntityManager,
     store_id?: number,
     roles?: string[],
+    storeId?: number,
   ) {
     const queryBuilder = manager
       .createQueryBuilder(StoreUserOrmEntity, 'store_user')
@@ -65,6 +83,7 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
       .leftJoin('role_permission.permission', 'permission')
       .leftJoin('user.userHasPermissions', 'user_permissions')
       .leftJoin('user_permission.permission', 'userPermissions')
+      .leftJoin('store_user.store', 'store')
       .addSelect([
         'user.id',
         'user.user_no',
@@ -75,6 +94,8 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
         'user_profile.id',
         'user_profile.image',
         'user_permission.permission_id',
+        'user.created_at',
+        'user.updated_at',
         'permissions.id',
         'permissions.name',
         'permissions.display_name',
@@ -86,6 +107,11 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
         'userPermissions.id',
         'userPermissions.name',
         'userPermissions.display_name',
+        'store.id',
+        'store.name',
+        'store.short_name',
+        'store.store_no',
+        'store_user.created_at',
       ]);
 
     if (
@@ -96,6 +122,10 @@ export class ReadStoreUserRepository implements IReadStoreUserRepository {
       queryBuilder.andWhere('store_user.store_id = :store_id', {
         store_id,
       });
+    }
+
+    if (storeId) {
+      queryBuilder.andWhere('store_user.store_id = :storeId', { storeId });
     }
 
     return queryBuilder;

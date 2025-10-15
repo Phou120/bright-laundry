@@ -26,10 +26,26 @@ export class ReadTaxRepository implements IReadTaxRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<TaxOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
+
+    // Define allowed sort fields and their proper aliases
+    const allowedSortFields = {
+      name: 'tax.name',
+      created_at: 'tax.created_at',
+      updated_at: 'tax.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'tax.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy =
+      allowedSortFields[sortBy as keyof typeof allowedSortFields] || 'tax.id';
+
     const safeQuery: TaxQueryDto = {
       ...query,
       use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'tax.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     const data = await this._paginationService.paginate(

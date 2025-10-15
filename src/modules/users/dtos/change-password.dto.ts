@@ -1,3 +1,4 @@
+import { Match } from '@src/common/decorator/match.decorator';
 import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
 
@@ -15,4 +16,11 @@ export class ChangePasswordDto {
     message: i18nValidationMessage('validation.MIN_LENGTH', { min: 6 }),
   })
   readonly new_password: string;
+
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
+  @Match('new_password', {
+    message: i18nValidationMessage('validation.PASSWORDS_NOT_MATCH'),
+  })
+  readonly confirmPassword: string;
 }

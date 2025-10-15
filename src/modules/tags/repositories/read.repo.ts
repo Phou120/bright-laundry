@@ -27,10 +27,24 @@ export class ReadTagRepository implements IReadTagRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<TagOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
+
+    const allowedSortFields = {
+      name: 'tag.name',
+      created_at: 'tag.created_at',
+      updated_at: 'tag.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'tag.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy =
+      allowedSortFields[sortBy as keyof typeof allowedSortFields] || 'tag.id';
+
     const safeQuery: TagQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'tag.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     const data = await this._paginationService.paginate(

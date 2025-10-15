@@ -27,10 +27,25 @@ export class ReadCategoryRepository implements IReadCategoryRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<ProductCategoryOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
+
+    const allowedSortFields = {
+      name: 'category.name',
+      created_at: 'category.created_at',
+      updated_at: 'category.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'category.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy =
+      allowedSortFields[sortBy as keyof typeof allowedSortFields] ||
+      'category.id';
+
     const safeQuery: CategoryQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'category.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     const data = await this._paginationService.paginate(
