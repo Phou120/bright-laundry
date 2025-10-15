@@ -33,10 +33,25 @@ export class ReadProductAttributeRepository
       manager ?? this._Orm.manager,
       store_id,
     );
+
+    const allowedSortFields = {
+      name: 'product_attribute.name',
+      created_at: 'product_attribute.created_at',
+      updated_at: 'product_attribute.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'product_attribute.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy =
+      allowedSortFields[sortBy as keyof typeof allowedSortFields] ||
+      'product_attribute.id';
+
     const safeQuery: ProductAttributeQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'product_attribute.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     // Apply filters

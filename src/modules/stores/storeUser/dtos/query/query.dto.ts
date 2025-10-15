@@ -10,4 +10,8 @@ export class StoreUserQueryDto extends PaginationDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @IsOptional()
+  @IsString()
+  store_id?: string;
 }

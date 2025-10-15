@@ -27,13 +27,27 @@ export class ReadSupplierRepository implements IReadSupplierRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<SupplierOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
-    const safeQuery: SupplierQueryDto = {
-      ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'supplier.id',
+
+    const allowedSortFields = {
+      name: 'supplier.name',
+      email: 'supplier.email',
+      created_at: 'supplier.created_at',
+      updated_at: 'supplier.updated_at',
     };
 
-    console.log('object');
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'supplier.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy =
+      allowedSortFields[sortBy as keyof typeof allowedSortFields] ||
+      'supplier.id';
+
+    const safeQuery: SupplierQueryDto = {
+      ...query,
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
+    };
 
     const data = await this._paginationService.paginate(
       queryBuilder,

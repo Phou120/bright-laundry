@@ -27,10 +27,24 @@ export class ReadRoleRepository implements IReadRoleRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<RoleOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
+
+    // Define allowed sort fields and their proper aliases
+    const allowedSortFields = {
+      name: 'roles.name',
+      created_at: 'roles.created_at',
+      updated_at: 'roles.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'roles.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy = allowedSortFields[sortBy] || 'roles.id';
+
     const safeQuery: UserQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'roles.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     const data = await this._paginationService.paginate(

@@ -38,5 +38,6 @@
   "MAX_LENGTH": "{property} ຕ້ອງມີຄວາມຍາວບໍ່ເກີນ {max} ຕົວອັກສອນ",
   "PASSWORDS_DO_NOT_MATCH": "{property} ບໍ່ກົງກັບລະຫັດຢືນຢັນ",
   "START_BEFORE_END": "{property} ເລີ່ມກ່ອນເວລາສິ້ນສຸດ end_time",
-  "IS_ENUM": "{property} ຕ້ອງເປັນຫນຶ່ງໃນຄ່າຕໍ່ໄປນີ້: open, close"
+  "IS_ENUM": "{property} ຕ້ອງເປັນຫນຶ່ງໃນຄ່າຕໍ່ໄປນີ້: open, close",
+  "PASSWORDS_NOT_MATCH": "ລະຫັດຜ່ານບໍ່ກົງກັບ"
 }

@@ -1,3 +1,4 @@
+import { Match } from '@src/common/decorator/match.decorator';
 import {
   IsStartBeforeEndConstraint,
   TIME_REGEX,
@@ -34,6 +35,13 @@ export class CreateDto {
     message: i18nValidationMessage('validation.MIN_LENGTH', { count: 6 }),
   })
   readonly password: string;
+
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
+  @Match('password', {
+    message: i18nValidationMessage('validation.PASSWORDS_NOT_MATCH'),
+  })
+  readonly confirmPassword: string;
 
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })

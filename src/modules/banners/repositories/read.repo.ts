@@ -27,10 +27,25 @@ export class ReadBannerRepository implements IReadBannerRepository {
     manager: EntityManager,
   ): Promise<ResponseResult<BannerOrmEntity>> {
     const queryBuilder = this.createBaseQuery(manager ?? this._Orm.manager);
+
+    const allowedSortFields = {
+      order_by: 'banner.order_by',
+      created_at: 'banner.created_at',
+      updated_at: 'banner.updated_at',
+    };
+
+    // Get the requested sort_by value, or use the safe default
+    let sortBy = query?.sort_by ?? 'banner.id';
+
+    // Map the sort field to its proper alias, or use default if not allowed
+    sortBy =
+      allowedSortFields[sortBy as keyof typeof allowedSortFields] ||
+      'banner.id';
+
     const safeQuery: BannerQueryDto = {
       ...query,
-      use_cursor: query?.use_cursor ?? false,
-      sort_by: query?.sort_by ?? 'banner.id',
+      sort_by: sortBy,
+      sort_order: query?.sort_order ?? 'DESC',
     };
 
     const data = await this._paginationService.paginate(
