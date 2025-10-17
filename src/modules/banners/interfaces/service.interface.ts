@@ -4,6 +4,7 @@ import { BannerOrmEntity } from '@src/common/infrastructure/database/typeorms/en
 import { EntityManager } from 'typeorm';
 import { BannerQueryDto } from '../dtos/query/query.dto';
 import { UpdateDto } from '../dtos/update.dto';
+import { UpdateOrderDto } from '../dtos/update-order.dto';
 
 export interface IBannerServiceInterface {
   create(
@@ -26,6 +27,11 @@ export interface IBannerServiceInterface {
     body: UpdateDto,
     manager?: EntityManager,
   ): Promise<ResponseResult<BannerOrmEntity>>;
+
+  updateOrder(
+    body: UpdateOrderDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<BannerOrmEntity[]>>;
 
   delete(id: number, manager?: EntityManager): Promise<void>;
 }

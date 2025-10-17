@@ -66,5 +66,6 @@
   "company_already_exists": "Company already exists",
   "invalid_old_password": "Invalid old password",
   "permission_ids_required": "Permission ids are required",
-  "store_is_open": "This store {property} cannot be deleted as it is still in operation."
+  "store_is_open": "This store {property} cannot be deleted as it is still in operation.",
+  "something_went_wrong": "Something went wrong, please try again later"
 }

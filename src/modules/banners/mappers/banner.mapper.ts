@@ -50,4 +50,8 @@ export class BannerDataAccessMapper {
         : null,
     } as unknown as BannerOrmEntity;
   }
+
+  toEntityList(ormDataList: BannerOrmEntity[]): BannerOrmEntity[] {
+    return ormDataList.map((ormData) => this.toEntity(ormData));
+  }
 }

@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { StoreOrmEntity } from './store.orm';
 import { ProductVariationOrmEntity } from './product-variation.orm';
+import { ProductImageOrmEntity } from './product-image.orm';
 
 export enum ProductType {
   STANDARD = 'standard',
@@ -61,7 +62,13 @@ export class ProductOrmEntity {
 
   @OneToMany(
     () => ProductVariationOrmEntity,
-    (product) => product.product_variations,
+    (product_variations) => product_variations.product,
   )
   product_variations: Relation<ProductVariationOrmEntity[]>;
+
+  @OneToMany(
+    () => ProductImageOrmEntity,
+    (product_images) => product_images.product,
+  )
+  product_images: Relation<ProductImageOrmEntity[]>;
 }

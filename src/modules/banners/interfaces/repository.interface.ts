@@ -4,6 +4,7 @@ import { ResponseResult } from '@src/common/infrastructure/pagination/pagination
 import { BannerOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/banner.orm';
 import { BannerQueryDto } from '../dtos/query/query.dto';
 import { UpdateDto } from '../dtos/update.dto';
+import { UpdateOrderDto } from '../dtos/update-order.dto';
 
 export interface IWriteBannerRepository {
   create(
@@ -17,6 +18,11 @@ export interface IWriteBannerRepository {
   ): Promise<ResponseResult<BannerOrmEntity>>;
 
   delete(id: number, manager: EntityManager): Promise<void>;
+
+  updateOrder(
+    body: UpdateOrderDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<BannerOrmEntity[]>>;
 }
 
 export interface IReadBannerRepository {

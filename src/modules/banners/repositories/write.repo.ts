@@ -7,6 +7,7 @@ import { EntityManager } from 'typeorm';
 import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
 import { BannerOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/banner.orm';
 import { UpdateDto } from '../dtos/update.dto';
+import { UpdateOrderDto } from '../dtos/update-order.dto';
 
 @Injectable()
 export class WriteBannerRepository implements IWriteBannerRepository {
@@ -39,5 +40,29 @@ export class WriteBannerRepository implements IWriteBannerRepository {
 
   async delete(id: number, manager: EntityManager): Promise<void> {
     await manager.softDelete(BannerOrmEntity, id);
+  }
+
+  async updateOrder(
+    body: UpdateOrderDto,
+    manager: EntityManager,
+  ): Promise<ResponseResult<BannerOrmEntity[]>> {
+    const updatedBanners: BannerOrmEntity[] = [];
+
+    for (const bannerOrder of body.banner_orders) {
+      const order_by = bannerOrder.order_by as unknown as number;
+      await manager.update(BannerOrmEntity, bannerOrder.id, {
+        order_by: order_by.toString(),
+      });
+
+      const updatedBanner = await manager.findOne(BannerOrmEntity, {
+        where: { id: bannerOrder.id },
+      });
+
+      if (updatedBanner) {
+        updatedBanners.push(updatedBanner);
+      }
+    }
+
+    return this._dataAccessMapper.toEntityList(updatedBanners);
   }
 }

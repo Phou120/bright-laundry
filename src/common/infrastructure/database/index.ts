@@ -6,6 +6,7 @@ import { PermissionOrmEntity } from './typeorms/entities/permission.orm';
 import { ProductAttributeOrmEntity } from './typeorms/entities/product-attribute.orm';
 import { ProductBrandOrmEntity } from './typeorms/entities/product-brand.orm';
 import { ProductCategoryOrmEntity } from './typeorms/entities/product-categoy.orm';
+import { ProductImageOrmEntity } from './typeorms/entities/product-image.orm';
 import { ProductVariationOrmEntity } from './typeorms/entities/product-variation.orm';
 import { ProductOrmEntity } from './typeorms/entities/product.orm';
 import { ProvinceOrmEntity } from './typeorms/entities/province.orm';
@@ -54,4 +55,5 @@ export const entities = [
   ProductAttributeOrmEntity,
   ProductOrmEntity,
   ProductVariationOrmEntity,
+  ProductImageOrmEntity,
 ];

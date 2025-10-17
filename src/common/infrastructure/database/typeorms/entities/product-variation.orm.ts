@@ -51,7 +51,7 @@ export class ProductVariationOrmEntity {
     },
   )
   @JoinColumn({ name: 'product_id' })
-  product_variations: Relation<ProductOrmEntity>;
+  product: Relation<ProductOrmEntity>;
 
   @Column({
     type: 'enum',

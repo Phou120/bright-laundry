@@ -13,6 +13,8 @@ import { GetByIdBannerQuery } from '../queries/get-by-id.query';
 import { UpdateDto } from '../dtos/update.dto';
 import { UpdateCommand } from '../commands/update.command';
 import { DeleteCommand } from '../commands/delete.command';
+import { UpdateOrderDto } from '../dtos/update-order.dto';
+import { UpdateOrderCommand } from '../commands/update-order.command';
 
 @Injectable()
 export class BannerService implements IBannerServiceInterface {
@@ -62,6 +64,15 @@ export class BannerService implements IBannerServiceInterface {
   async delete(id: number, manager?: EntityManager): Promise<void> {
     return await this._commandBus.execute(
       new DeleteCommand(id, manager ?? this._readEntityManager),
+    );
+  }
+
+  async updateOrder(
+    body: UpdateOrderDto,
+    manager?: EntityManager,
+  ): Promise<ResponseResult<BannerOrmEntity[]>> {
+    return await this._commandBus.execute(
+      new UpdateOrderCommand(body, manager ?? this._readEntityManager),
     );
   }
 }
