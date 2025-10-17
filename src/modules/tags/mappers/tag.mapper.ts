@@ -14,6 +14,7 @@ export class TagDataAccessMapper {
     method: OrmEntityMethod,
   ): TagOrmEntity {
     const now = moment.tz(Timezone.LAOS).format(DateFormat.DATETIME_FORMAT);
+    console.log('object', now);
 
     const ormEntity = new TagOrmEntity();
     ormEntity.name = dto.name;

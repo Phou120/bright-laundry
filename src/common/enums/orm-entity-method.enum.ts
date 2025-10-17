@@ -42,3 +42,8 @@ export enum EligiblePersons {
   SUPER_ADMIN = 'super-admin',
   ADMIN = 'admin',
 }
+
+export enum EnumProductStatus {
+  ENABLE = 'enable',
+  DISABLE = 'disable',
+}

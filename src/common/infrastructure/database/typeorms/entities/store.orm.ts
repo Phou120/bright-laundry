@@ -18,6 +18,7 @@ import { StoreUserOrmEntity } from './store-user.orm';
 import { StoreOpenCloseTimeOrmEntity } from './store-open-close-time.orm';
 import { VillageOrmEntity } from './village.orm';
 import { ProductAttributeOrmEntity } from './product-attribute.orm';
+import { ProductOrmEntity } from './product.orm';
 
 @Entity('stores')
 export class StoreOrmEntity {
@@ -136,4 +137,7 @@ export class StoreOrmEntity {
     (productAttribute) => productAttribute.store,
   )
   product_attributes: Relation<ProductAttributeOrmEntity[]>;
+
+  @OneToMany(() => ProductOrmEntity, (product) => product.store)
+  products: Relation<ProductOrmEntity[]>;
 }

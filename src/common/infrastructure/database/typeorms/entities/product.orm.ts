@@ -4,11 +4,15 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from 'typeorm';
 import { StoreOrmEntity } from './store.orm';
+import { ProductVariationOrmEntity } from './product-variation.orm';
 
 export enum ProductType {
   STANDARD = 'standard',
@@ -39,8 +43,12 @@ export class ProductOrmEntity {
   @Column({ type: 'int', unsigned: true, nullable: false })
   store_id: number;
 
-  @ManyToOne(() => StoreOrmEntity)
-  store: StoreOrmEntity;
+  @ManyToOne(() => StoreOrmEntity, (store) => store.products, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'store_id' })
+  store: Relation<StoreOrmEntity>;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
@@ -50,4 +58,10 @@ export class ProductOrmEntity {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date | null;
+
+  @OneToMany(
+    () => ProductVariationOrmEntity,
+    (product) => product.product_variations,
+  )
+  product_variations: Relation<ProductVariationOrmEntity[]>;
 }
