@@ -1,0 +1,10 @@
+[build]
+  # Skip secrets scanning for common build artifacts and source files
+  [build.environment]
+    SECRETS_SCAN_ENABLED = "true"
+    SECRETS_SCAN_OMIT_PATHS = "package-lock.json,pnpm-lock.yaml,yarn.lock,.netlify,dist,node_modules"
+    SECRETS_SCAN_OMIT_KEYS = "NODE_ENV,LOG_LEVEL,PORT,READ_CONNECTION_NAME,WRITE_DB_HOST,WRITE_DB_PASSWORD,WRITE_DB_USERNAME,WRITE_DB_NAME,WRITE_DB_PORT,READ_DB_HOST,READ_DB_PASSWORD,READ_DB_USERNAME,READ_DB_NAME,READ_DB_PORT,REDIS_HOST,REDIS_PORT,REDIS_PASSWORD,IMAGE_FOLDER"
+
+[build.processing]
+  # Optimize build process
+  skip_processing = false
