@@ -36,7 +36,7 @@ export class StoreOpenCloseTimeOrmEntity {
   @Index()
   @Column({ type: 'int', unsigned: true, nullable: true })
   store_id?: number;
-  @ManyToOne(() => StoreOrmEntity, (store) => store.store_open_close_times, {
+  @ManyToOne(() => StoreOrmEntity, (store) => store.open_close_item, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })

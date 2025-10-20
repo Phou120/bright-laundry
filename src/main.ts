@@ -17,7 +17,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new CustomI18nValidationExceptionFilter());
 
-  const PORT = process.env.PORT || 3001;
+  const PORT = process.env.PORT || 300;
 
   await app.listen(PORT);
   console.log(`Server is running on http://localhost:${PORT}`);

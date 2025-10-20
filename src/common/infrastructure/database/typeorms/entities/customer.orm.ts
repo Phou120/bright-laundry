@@ -9,20 +9,32 @@ import {
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
-import { DistrictOrmEntity } from './district.orm';
+import { WashingMachineOrmEntity } from './washing-machine.orm';
 
-@Entity('provinces')
-export class ProvinceOrmEntity {
+@Entity('customers')
+export class CustomerOrmEntity {
   @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
-  name_lo?: string;
+  name?: string;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
-  name_en?: string;
+  surname?: string;
+
+  @Index()
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  tel?: string;
+
+  @Index()
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  email?: string;
+
+  @Index()
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  address?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
@@ -35,6 +47,9 @@ export class ProvinceOrmEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date | null;
 
-  @OneToMany(() => DistrictOrmEntity, (district) => district.province)
-  districts: Relation<DistrictOrmEntity[]>;
+  @OneToMany(
+    () => WashingMachineOrmEntity,
+    (washingMachine) => washingMachine.customer,
+  )
+  washing_machines: Relation<WashingMachineOrmEntity[]>;
 }

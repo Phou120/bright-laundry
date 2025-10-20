@@ -13,12 +13,9 @@ import {
 } from 'typeorm';
 import { StoreStatusOrmEntity } from './store-status.orm';
 import { TaxOrmEntity } from './tax.orm';
-import { EnumShipping } from '@src/common/enums/orm-entity-method.enum';
 import { StoreUserOrmEntity } from './store-user.orm';
 import { StoreOpenCloseTimeOrmEntity } from './store-open-close-time.orm';
-import { VillageOrmEntity } from './village.orm';
-import { ProductAttributeOrmEntity } from './product-attribute.orm';
-import { ProductOrmEntity } from './product.orm';
+import { WashingMachineOrmEntity } from './washing-machine.orm';
 
 @Entity('stores')
 export class StoreOrmEntity {
@@ -35,34 +32,27 @@ export class StoreOrmEntity {
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
-  short_name?: string;
+  email?: string;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
-  public_email?: string;
-
-  @Index()
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  phone_number?: string;
+  tel?: string;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
   address?: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  image?: string;
+  logo?: string;
 
-  @Column({ type: 'double precision', nullable: true })
-  latitude?: number;
-
-  @Column({ type: 'double precision', nullable: true })
-  longitude?: number;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  map_link?: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   bank_name?: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  account_number?: string;
+  bank_account_number?: string;
 
   @Column({ type: 'text', nullable: true })
   description?: string;
@@ -86,16 +76,6 @@ export class StoreOrmEntity {
 
   @Index()
   @Column({ type: 'int', unsigned: true, nullable: true })
-  village_id?: number;
-  @ManyToOne(() => VillageOrmEntity, (village) => village.stores, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'village_id' })
-  village: Relation<VillageOrmEntity>;
-
-  @Index()
-  @Column({ type: 'int', unsigned: true, nullable: true })
   tax_id?: number;
   @ManyToOne(() => TaxOrmEntity, (tax) => tax.stores, {
     onDelete: 'CASCADE',
@@ -103,14 +83,6 @@ export class StoreOrmEntity {
   })
   @JoinColumn({ name: 'tax_id' })
   tax: Relation<TaxOrmEntity>;
-
-  @Index()
-  @Column({ type: 'boolean', default: false })
-  is_top: boolean;
-
-  @Index()
-  @Column({ type: 'enum', enum: EnumShipping, default: EnumShipping.STORE })
-  shipping: EnumShipping;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
@@ -128,16 +100,13 @@ export class StoreOrmEntity {
 
   @OneToMany(
     () => StoreOpenCloseTimeOrmEntity,
-    (storeOpenCloseTime) => storeOpenCloseTime.store,
+    (open_close_item) => open_close_item.store,
   )
-  store_open_close_times: Relation<StoreOpenCloseTimeOrmEntity[]>;
+  open_close_item: Relation<StoreOpenCloseTimeOrmEntity>;
 
   @OneToMany(
-    () => ProductAttributeOrmEntity,
-    (productAttribute) => productAttribute.store,
+    () => WashingMachineOrmEntity,
+    (washingMachine) => washingMachine.store,
   )
-  product_attributes: Relation<ProductAttributeOrmEntity[]>;
-
-  @OneToMany(() => ProductOrmEntity, (product) => product.store)
-  products: Relation<ProductOrmEntity[]>;
+  washing_machines: Relation<WashingMachineOrmEntity[]>;
 }

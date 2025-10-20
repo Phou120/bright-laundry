@@ -7,8 +7,6 @@ import { UsersSeeder } from '../user.seed';
 import { RoleSeeder } from '../role.seed';
 import { PermissionGroupSeeder } from '../permission-group.seeder';
 import { PermissionSeeder } from '../permission.seeder';
-import { ProvinceSeeder } from '../province.seeder';
-import { DistrictSeeder } from '../district.seeder';
 import { TaxSeeder } from '../tax.seeder';
 import { StoreStatusSeeder } from '../store-status.seeder';
 
@@ -22,8 +20,6 @@ export class SeederService {
     @Inject() private _userSeeder: UsersSeeder,
     @Inject() private _permissionGroupSeeder: PermissionGroupSeeder,
     @Inject() private _permissionSeeder: PermissionSeeder,
-    @Inject() private _provinceSeeder: ProvinceSeeder,
-    @Inject() private _districtSeeder: DistrictSeeder,
     @Inject() private _taxSeeder: TaxSeeder,
     @Inject() private _storeStatusSeeder: StoreStatusSeeder,
   ) {}
@@ -37,8 +33,6 @@ export class SeederService {
           await this._userSeeder.seed(manager);
           await this._permissionGroupSeeder.seed(manager);
           await this._permissionSeeder.seed(manager);
-          await this._provinceSeeder.seed(manager);
-          await this._districtSeeder.seed(manager);
           await this._taxSeeder.seed(manager);
           await this._storeStatusSeeder.seed(manager);
         },

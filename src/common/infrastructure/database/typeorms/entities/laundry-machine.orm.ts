@@ -8,17 +8,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('product_categories')
-export class ProductCategoryOrmEntity {
+@Entity('laundry_machines')
+export class LaundryMachineOrmEntity {
   @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
   name?: string;
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  image?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

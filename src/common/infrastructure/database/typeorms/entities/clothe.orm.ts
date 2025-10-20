@@ -4,16 +4,15 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  JoinColumn,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
-import { StoreOrmEntity } from './store.orm';
+import { WashingMachineDetailOrmEntity } from './washing-machine-detail.orm';
 
-@Entity('product_attributes')
-export class ProductAttributeOrmEntity {
+@Entity('clothes')
+export class ClothesOrmEntity {
   @PrimaryGeneratedColumn({ unsigned: true })
   id: number;
 
@@ -21,18 +20,8 @@ export class ProductAttributeOrmEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   name?: string;
 
-  @Column({ type: 'boolean', default: false })
-  show_image: boolean;
-
-  @Index()
-  @Column({ type: 'int', unsigned: true, nullable: true })
-  store_id?: number;
-  @ManyToOne(() => StoreOrmEntity, (store) => store.product_attributes, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'store_id' })
-  store: Relation<StoreOrmEntity>;
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  price?: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
@@ -44,4 +33,7 @@ export class ProductAttributeOrmEntity {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date | null;
+
+  @OneToMany(() => WashingMachineDetailOrmEntity, (detail) => detail.clothes)
+  details: Relation<WashingMachineDetailOrmEntity[]>;
 }
