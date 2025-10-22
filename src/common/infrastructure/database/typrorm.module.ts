@@ -36,9 +36,9 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
           configService.getOrThrow<never>('WRITE_DB_SYNCHRONIZE') == 'true', // set false because i need use migrations
         logging: configService.getOrThrow<boolean>('WRITE_DB_LOGGING'),
         migrationsTableName: 'migrations',
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        // ssl: {
+        //   rejectUnauthorized: false,
+        // },
       }),
     }),
     TypeOrmModule.forRootAsync({
