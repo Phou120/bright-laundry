@@ -36,6 +36,9 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
           configService.getOrThrow<never>('WRITE_DB_SYNCHRONIZE') == 'true', // set false because i need use migrations
         logging: configService.getOrThrow<boolean>('WRITE_DB_LOGGING'),
         migrationsTableName: 'migrations',
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -54,6 +57,9 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
           configService.getOrThrow<never>('READ_DB_SYNCHRONIZE') == 'true', // set false because i need use migrations
         logging: configService.getOrThrow<boolean>('READ_DB_LOGGING'),
         migrationsTableName: 'migrations',
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }),
     }),
     TypeOrmModule.forFeature([...entities]), // ຖ້າບໍ່ໃຊ້ອັນນີ້ຈະບໍ່ສາມາດເອີ້ນໃຊ້ Repository<User>

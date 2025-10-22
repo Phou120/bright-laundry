@@ -15,4 +15,7 @@ export const dataSource = new DataSource({
   entities: [...entities],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   migrationsTableName: 'migrations',
+  ssl: {
+    rejectUnauthorized: false, // 🔥 required for Render-hosted DBs
+  },
 });
