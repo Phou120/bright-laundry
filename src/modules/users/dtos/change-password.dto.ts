@@ -8,13 +8,6 @@ export class ChangePasswordDto {
   @MinLength(6, {
     message: i18nValidationMessage('validation.MIN_LENGTH', { min: 6 }),
   })
-  readonly old_password: string;
-
-  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
-  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
-  @MinLength(6, {
-    message: i18nValidationMessage('validation.MIN_LENGTH', { min: 6 }),
-  })
   readonly new_password: string;
 
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
@@ -22,5 +15,5 @@ export class ChangePasswordDto {
   @Match('new_password', {
     message: i18nValidationMessage('validation.PASSWORDS_NOT_MATCH'),
   })
-  readonly confirmPassword: string;
+  readonly confirm_password: string;
 }

@@ -31,7 +31,7 @@ export class CreateDto {
   @Match('password', {
     message: i18nValidationMessage('validation.PASSWORDS_NOT_MATCH'),
   })
-  readonly confirmPassword: string;
+  readonly confirm_password: string;
 
   @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsString({ message: i18nValidationMessage('validation.IS_STRING') })

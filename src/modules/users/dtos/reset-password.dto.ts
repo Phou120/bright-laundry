@@ -18,5 +18,5 @@ export class ResetPasswordDto {
   @Match('password', {
     message: i18nValidationMessage('validation.PASSWORDS_DO_NOT_MATCH'),
   })
-  readonly confirmPassword: string;
+  readonly confirm_password: string;
 }
