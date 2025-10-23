@@ -15,9 +15,9 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.useGlobalFilters(new CustomI18nValidationExceptionFilter());
+  app.useGlobalFilters(new CustomI18nValidationExceptionFilter()); // FIX: Change fallback port from 300 to a standard port like 3000
 
-  const PORT = process.env.PORT || 300;
+  const PORT = process.env.PORT || 3000;
 
   await app.listen(PORT);
   console.log(`Server is running on http://localhost:${PORT}`);

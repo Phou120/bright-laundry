@@ -14,28 +14,19 @@ export const dataSource = new DataSource({
   logging: Boolean(process.env.WRITE_DB_LOGGING || false),
   entities: [...entities],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-  migrationsTableName: 'migrations', // -----------------------------------------------------------------
-  // REMOVED: ssl: true, (It conflicts with the extra config below)
-  // -----------------------------------------------------------------
-  // Set a client-side timeout slightly higher than the DB default, if any
+  migrationsTableName: 'migrations', // Set a client-side timeout slightly higher than the DB default, if any
   connectTimeoutMS: 20000, // e.g., 20 seconds
-  // Maximum number of connections to allow in the pool. Default is 10.
-  // If you are using a tiny DB instance, you may need to lower this.
-  // max: 10, // You can leave this commented out or uncomment if needed
   // -----------------------------------------------------------------
   // *** CORRECTED 'extra' CONFIGURATION ***
   // -----------------------------------------------------------------
 
   extra: {
     // Sets the client to send a TCP Keep-Alive probe (recommended for cloud connections)
-    keepAlive: true, // Maximum time a connection can be idle in the pool before being closed (in ms).
+    keepAlive: true,
 
     idleTimeoutMillis: 30000, // e.g., 30 seconds
-    // Time in milliseconds to wait before a query is considered a timeout
-
     query_timeout: 10000, // e.g., 10 seconds
     // FIX: SSL configuration for the 'pg' driver to resolve TLS errors
-
     ssl: {
       rejectUnauthorized: false,
     },

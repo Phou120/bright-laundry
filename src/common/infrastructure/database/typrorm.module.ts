@@ -20,6 +20,8 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
       envFilePath: '.env',
     }),
     TransactionModule,
+
+    // --- WRITE CONNECTION CONFIGURATION ---
     TypeOrmModule.forRootAsync({
       name: process.env.WRITE_CONNECTION_NAME,
       inject: [ConfigService],
@@ -36,17 +38,16 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
           configService.getOrThrow<never>('WRITE_DB_SYNCHRONIZE') == 'true',
         logging: configService.getOrThrow<boolean>('WRITE_DB_LOGGING'),
         migrationsTableName: 'migrations',
+
         // Pool configuration
         connectTimeoutMS: 20000,
         max: 10,
 
-        // --- CORRECTED 'extra' CONFIGURATION (includes SSL fix) ---
+        // FIX: SSL configuration for Render/PostgreSQL
         extra: {
-          // Pool management settings
           keepAlive: true,
           idleTimeoutMillis: 30000,
-          query_timeout: 10000, // FIX: SSL configuration passed directly to the 'pg' driver
-
+          query_timeout: 10000,
           ssl: {
             rejectUnauthorized: false,
           },
@@ -54,8 +55,7 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
       }),
     }),
 
-    // -----------------------------------------------------------------
-
+    // --- READ CONNECTION CONFIGURATION ---
     TypeOrmModule.forRootAsync({
       name: process.env.READ_CONNECTION_NAME,
       inject: [ConfigService],
@@ -77,12 +77,11 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
         connectTimeoutMS: 20000,
         max: 10,
 
-        // --- CORRECTED 'extra' CONFIGURATION (includes SSL fix) ---
+        // FIX: SSL configuration for Render/PostgreSQL
         extra: {
-          // Pool management settings
           keepAlive: true,
           idleTimeoutMillis: 30000,
-          query_timeout: 10000, // FIX: SSL configuration passed directly to the 'pg' driver
+          query_timeout: 10000,
 
           ssl: {
             rejectUnauthorized: false,
@@ -90,6 +89,7 @@ import { StoreStatusSeeder } from './typeorms/seeders/store-status.seeder';
         },
       }),
     }),
+
     TypeOrmModule.forFeature([...entities]),
   ],
   exports: [TypeOrmModule],
