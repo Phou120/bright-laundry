@@ -74,8 +74,11 @@ export class StoreService implements IStoreServiceInterface {
       const storeData = {
         ...body,
         store_no,
+        // user?: body.user,
       };
-      delete storeData.user; // Remove user data from store creation
+      // if (storeData.user) {
+      //   delete storeData.user?.;
+      // } // Remove user data from store creation
 
       const store = transactionManager
         .getRepository(StoreOrmEntity)

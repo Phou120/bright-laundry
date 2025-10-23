@@ -1,8 +1,8 @@
-import { IsOptional, IsString, IsNumber, IsIn, Min } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { IsOptional, IsString, IsNumber, IsIn } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ClothesQueryDto {
+export class CustomerQueryDto {
   @ApiPropertyOptional({
     description: 'Page number',
     example: 1,
@@ -10,7 +10,6 @@ export class ClothesQueryDto {
   })
   @IsOptional()
   @IsNumber()
-  @Min(1)
   @Transform(({ value }) => parseInt(value))
   page?: number = 1;
 
@@ -21,45 +20,56 @@ export class ClothesQueryDto {
   })
   @IsOptional()
   @IsNumber()
-  @Min(1)
   @Transform(({ value }) => parseInt(value))
   limit?: number = 10;
 
   @ApiPropertyOptional({
-    description: 'Search term for clothing fields',
-    example: 'shirt',
+    description: 'Search term for customer fields',
+    example: 'john',
   })
   @IsOptional()
   @IsString()
   search?: string;
 
   @ApiPropertyOptional({
-    description: 'Filter by clothing name',
-    example: 'T-Shirt',
+    description: 'Filter by customer name',
+    example: 'John',
   })
   @IsOptional()
   @IsString()
   name?: string;
 
   @ApiPropertyOptional({
-    description: 'Filter by minimum price',
-    example: 5.0,
+    description: 'Filter by customer surname',
+    example: 'Doe',
   })
   @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Type(() => Number)
-  min_price?: number;
+  @IsString()
+  surname?: string;
 
   @ApiPropertyOptional({
-    description: 'Filter by maximum price',
-    example: 50.0,
+    description: 'Filter by customer telephone',
+    example: '1234567890',
   })
   @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Type(() => Number)
-  max_price?: number;
+  @IsString()
+  tel?: string;
+
+  @ApiPropertyOptional({
+    description: 'Filter by customer email',
+    example: 'customer@example.com',
+  })
+  @IsOptional()
+  @IsString()
+  email?: string;
+
+  @ApiPropertyOptional({
+    description: 'Filter by customer address',
+    example: '123 Main St',
+  })
+  @IsOptional()
+  @IsString()
+  address?: string;
 
   @ApiPropertyOptional({
     description: 'Sort field',

@@ -1,8 +1,8 @@
-import { IsOptional, IsString, IsNumber, IsIn, Min } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { IsOptional, IsString, IsNumber, IsIn } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ClothesQueryDto {
+export class TaxQueryDto {
   @ApiPropertyOptional({
     description: 'Page number',
     example: 1,
@@ -10,7 +10,6 @@ export class ClothesQueryDto {
   })
   @IsOptional()
   @IsNumber()
-  @Min(1)
   @Transform(({ value }) => parseInt(value))
   page?: number = 1;
 
@@ -21,45 +20,42 @@ export class ClothesQueryDto {
   })
   @IsOptional()
   @IsNumber()
-  @Min(1)
   @Transform(({ value }) => parseInt(value))
   limit?: number = 10;
 
   @ApiPropertyOptional({
-    description: 'Search term for clothing fields',
-    example: 'shirt',
+    description: 'Search term for tax fields',
+    example: 'vat',
   })
   @IsOptional()
   @IsString()
   search?: string;
 
   @ApiPropertyOptional({
-    description: 'Filter by clothing name',
-    example: 'T-Shirt',
+    description: 'Filter by tax name',
+    example: 'VAT 7%',
   })
   @IsOptional()
   @IsString()
   name?: string;
 
   @ApiPropertyOptional({
-    description: 'Filter by minimum price',
-    example: 5.0,
+    description: 'Filter by minimum percentage',
+    example: 5,
   })
   @IsOptional()
   @IsNumber()
-  @Min(0)
-  @Type(() => Number)
-  min_price?: number;
+  @Transform(({ value }) => parseFloat(value))
+  min_percentage?: number;
 
   @ApiPropertyOptional({
-    description: 'Filter by maximum price',
-    example: 50.0,
+    description: 'Filter by maximum percentage',
+    example: 15,
   })
   @IsOptional()
   @IsNumber()
-  @Min(0)
-  @Type(() => Number)
-  max_price?: number;
+  @Transform(({ value }) => parseFloat(value))
+  max_percentage?: number;
 
   @ApiPropertyOptional({
     description: 'Sort field',

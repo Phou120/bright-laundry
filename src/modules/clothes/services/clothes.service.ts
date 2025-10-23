@@ -19,7 +19,9 @@ export class ClothesService implements IClothesServiceInterface {
     body: CreateClothesDto,
     manager?: EntityManager,
   ): Promise<ResponseResult<ClothesOrmEntity>> {
-    const repository = manager ? manager.getRepository(ClothesOrmEntity) : this.clothesRepository;
+    const repository = manager
+      ? manager.getRepository(ClothesOrmEntity)
+      : this.clothesRepository;
 
     const clothes = repository.create(body);
     const savedClothes = await repository.save(clothes);
@@ -30,44 +32,49 @@ export class ClothesService implements IClothesServiceInterface {
   async getAll(
     query: ClothesQueryDto,
   ): Promise<ResponseResult<ClothesOrmEntity>> {
-    const { page = 1, limit = 10, search, sort_by = 'created_at', sort_order = 'DESC' } = query;
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      sort_by = 'created_at',
+      sort_order = 'DESC',
+    } = query;
 
     const queryBuilder = this.clothesRepository
       .createQueryBuilder('clothes')
       .where('clothes.deleted_at IS NULL');
 
     if (search) {
-      queryBuilder.andWhere(
-        '(clothes.name ILIKE :search)',
-        { search: `%${search}%` }
-      );
+      queryBuilder.andWhere('(clothes.name ILIKE :search)', {
+        search: `%${search}%`,
+      });
     }
 
     if (query.name) {
       queryBuilder.andWhere('clothes.name ILIKE :name', {
-        name: `%${query.name}%`
+        name: `%${query.name}%`,
       });
     }
 
-    if (query.min_price !== undefined) {
-      queryBuilder.andWhere('clothes.price >= :min_price', {
-        min_price: query.min_price
-      });
-    }
+    // if (query.min_price !== undefined) {
+    //   queryBuilder.andWhere('clothes.price >= :min_price', {
+    //     min_price: query.min_price,
+    //   });
+    // }
 
-    if (query.max_price !== undefined) {
-      queryBuilder.andWhere('clothes.price <= :max_price', {
-        max_price: query.max_price
-      });
-    }
+    // if (query.max_price !== undefined) {
+    //   queryBuilder.andWhere('clothes.price <= :max_price', {
+    //     max_price: query.max_price,
+    //   });
+    // }
 
     // Price range filter
-    if (query.min_price !== undefined && query.max_price !== undefined) {
-      queryBuilder.andWhere('clothes.price BETWEEN :min_price AND :max_price', {
-        min_price: query.min_price,
-        max_price: query.max_price
-      });
-    }
+    // if (query.min_price !== undefined && query.max_price !== undefined) {
+    //   queryBuilder.andWhere('clothes.price BETWEEN :min_price AND :max_price', {
+    //     min_price: query.min_price,
+    //     max_price: query.max_price,
+    //   });
+    // }
 
     queryBuilder
       .orderBy(`clothes.${sort_by}`, sort_order)
@@ -87,12 +94,9 @@ export class ClothesService implements IClothesServiceInterface {
     };
   }
 
-  async getOne(
-    id: number,
-  ): Promise<ResponseResult<ClothesOrmEntity>> {
+  async getOne(id: number): Promise<ResponseResult<ClothesOrmEntity>> {
     const clothes = await this.clothesRepository.findOne({
       where: { id },
-      relations: ['details'],
     });
 
     if (!clothes) {
@@ -107,7 +111,9 @@ export class ClothesService implements IClothesServiceInterface {
     body: UpdateClothesDto,
     manager?: EntityManager,
   ): Promise<ResponseResult<ClothesOrmEntity>> {
-    const repository = manager ? manager.getRepository(ClothesOrmEntity) : this.clothesRepository;
+    const repository = manager
+      ? manager.getRepository(ClothesOrmEntity)
+      : this.clothesRepository;
 
     const clothes = await repository.findOne({
       where: { id },
@@ -123,11 +129,10 @@ export class ClothesService implements IClothesServiceInterface {
     return updatedClothes;
   }
 
-  async delete(
-    id: number,
-    manager?: EntityManager,
-  ): Promise<void> {
-    const repository = manager ? manager.getRepository(ClothesOrmEntity) : this.clothesRepository;
+  async delete(id: number, manager?: EntityManager): Promise<void> {
+    const repository = manager
+      ? manager.getRepository(ClothesOrmEntity)
+      : this.clothesRepository;
 
     const clothes = await repository.findOne({
       where: { id },

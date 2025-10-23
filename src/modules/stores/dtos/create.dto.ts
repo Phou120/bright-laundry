@@ -4,16 +4,20 @@ import {
   IsEmail,
   MaxLength,
   IsObject,
+  IsNotEmpty,
+  MinLength,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateUserWithStoreDto {
   @ApiProperty({
     description: 'User name',
     maxLength: 255,
   })
-  @IsString()
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   @MaxLength(255)
   name: string;
 
@@ -21,7 +25,8 @@ export class CreateUserWithStoreDto {
     description: 'User surname',
     maxLength: 255,
   })
-  @IsString()
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   @MaxLength(255)
   surname: string;
 
@@ -29,7 +34,9 @@ export class CreateUserWithStoreDto {
     description: 'User email',
     maxLength: 255,
   })
-  @IsEmail()
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
+  @IsEmail({}, { message: i18nValidationMessage('validation.IS_EMAIL') })
   @MaxLength(255)
   email: string;
 
@@ -37,7 +44,9 @@ export class CreateUserWithStoreDto {
     description: 'User password',
     maxLength: 255,
   })
-  @IsString()
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
+  @MinLength(6, { message: i18nValidationMessage('validation.MIN_LENGTH') })
   @MaxLength(255)
   password: string;
 
@@ -45,8 +54,8 @@ export class CreateUserWithStoreDto {
     description: 'User telephone',
     maxLength: 255,
   })
-  @IsOptional()
-  @IsString()
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   @MaxLength(255)
   tel?: string;
 }
@@ -56,26 +65,25 @@ export class CreateStoreDto {
     description: 'Store name',
     maxLength: 255,
   })
-  @IsString()
-  @MaxLength(255)
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   name: string;
 
   @ApiPropertyOptional({
     description: 'Store email',
     maxLength: 255,
   })
-  @IsOptional()
-  @IsEmail()
-  @MaxLength(255)
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
+  @IsEmail({}, { message: i18nValidationMessage('validation.IS_EMAIL') })
   email?: string;
 
   @ApiPropertyOptional({
     description: 'Store telephone',
     maxLength: 255,
   })
-  @IsOptional()
-  @IsString()
-  @MaxLength(255)
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   tel?: string;
 
   @ApiPropertyOptional({
@@ -109,17 +117,16 @@ export class CreateStoreDto {
     description: 'Bank name',
     maxLength: 255,
   })
-  @IsOptional()
-  @IsString()
-  @MaxLength(255)
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   bank_name?: string;
 
   @ApiPropertyOptional({
     description: 'Bank account number',
     maxLength: 255,
   })
-  @IsOptional()
-  @IsString()
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   @MaxLength(255)
   bank_account_number?: string;
 
@@ -127,34 +134,22 @@ export class CreateStoreDto {
     description: 'Store description',
   })
   @IsOptional()
-  @IsString()
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   description?: string;
 
   @ApiPropertyOptional({
     description: 'Store policy',
   })
   @IsOptional()
-  @IsString()
+  @IsString({ message: i18nValidationMessage('validation.IS_STRING') })
   policy?: string;
-
-  @ApiPropertyOptional({
-    description: 'Store status ID',
-  })
-  @IsOptional()
-  store_status_id?: number;
-
-  @ApiPropertyOptional({
-    description: 'Tax ID',
-  })
-  @IsOptional()
-  tax_id?: number;
 
   @ApiPropertyOptional({
     description: 'Create store with user',
     type: CreateUserWithStoreDto,
   })
-  @IsOptional()
+  @IsNotEmpty({ message: i18nValidationMessage('validation.IS_NOT_EMPTY') })
   @IsObject()
   @Type(() => CreateUserWithStoreDto)
-  user?: CreateUserWithStoreDto;
+  user: CreateUserWithStoreDto;
 }
