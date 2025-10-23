@@ -7,7 +7,6 @@ import { WRITE_USER_REPOSITORY } from '@src/common/constants/inject-key';
 import { IWriteUserRepository } from '../../interfaces/repository.interface';
 import { findOneOrFail } from '@src/common/utils/fine-one-orm.utils';
 import { DomainException } from '@src/common/exceptions/domain.exception';
-import * as bcrypt from 'bcryptjs';
 import { hashPassword } from '@src/common/utils/hash-password';
 
 @CommandHandler(ChangePasswordCommand)
@@ -49,17 +48,17 @@ export class ChangePasswordHandler
         { property: 'old_password' },
       );
     }
-    const isSamePassword = await bcrypt.compare(
-      body.old_password,
-      userPassword,
-    );
-    if (!isSamePassword) {
-      throw new DomainException(
-        'errors.invalid_old_password',
-        HttpStatus.BAD_REQUEST,
-        { property: `${body.old_password}` },
-      );
-    }
+    // const isSamePassword = await bcrypt.compare(
+    //   body.old_password,
+    //   userPassword,
+    // );
+    // if (!isSamePassword) {
+    //   throw new DomainException(
+    //     'errors.invalid_old_password',
+    //     HttpStatus.BAD_REQUEST,
+    //     { property: `${body.old_password}` },
+    //   );
+    // }
 
     // Hash the new password before saving
     const hashedNewPassword = await hashPassword(body.new_password);
