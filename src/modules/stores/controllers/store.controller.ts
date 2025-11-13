@@ -11,13 +11,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiConsumes,
-} from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import {
   IMAGE_ALLOW_MIME_TYPE,
   MAX_IMAGE_SIZE,
@@ -26,7 +20,7 @@ import {
 import { IStoreServiceInterface } from '../interfaces/service.interface';
 import { StoreOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/store.orm';
 import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
-import { CreateStoreDto } from '../dtos/create.dto';
+import { CreateStoreAndUserDto, CreateUserStoreDto } from '../dtos/create.dto';
 import { StoreQueryDto } from '../dtos/query/query.dto';
 import { UpdateStoreDto } from '../dtos/update.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -34,6 +28,8 @@ import { multerMemoryStorage } from '@src/common/utils/multer.utils';
 import { FileValidationInterceptor } from '@src/common/interceptors/file/file.interceptor';
 import { FileMimeTypeValidator } from '@src/common/validations/file-mime-type.validator';
 import { FileSizeValidator } from '@src/common/validations/file-size.validator';
+import { User } from '@src/common/decorator/user.decorator';
+import { UserOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user.orm';
 
 @ApiTags('stores')
 @Controller('stores')
@@ -44,33 +40,21 @@ export class StoreController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new store' })
-  @ApiResponse({ status: 201, description: 'Store created successfully' })
-  @ApiResponse({ status: 400, description: 'Bad request' })
   async create(
-    @Body() body: CreateStoreDto,
+    @Body() body: CreateStoreAndUserDto,
   ): Promise<ResponseResult<StoreOrmEntity>> {
     return await this._service.create(body);
   }
 
-  @Post('with-user')
-  @ApiOperation({ summary: 'Create a new store with associated user' })
-  @ApiResponse({
-    status: 201,
-    description: 'Store and user created successfully',
-  })
-  @ApiResponse({ status: 400, description: 'Bad request' })
+  @Post('user')
   async createWithUser(
-    @Body() body: CreateStoreDto,
-  ): Promise<{ store: StoreOrmEntity; user: any; storeUser: any }> {
-    return await this._service.createWithUser(body);
+    @User('id') userId: number,
+    @Body() body: CreateUserStoreDto,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._service.createWithUser(userId, body);
   }
 
   @Post('upload-store-logo')
-  @ApiOperation({ summary: 'Upload store logo' })
-  @ApiConsumes('multipart/form-data')
-  @ApiResponse({ status: 201, description: 'Logo uploaded successfully' })
-  @ApiResponse({ status: 400, description: 'Bad request' })
   @UseInterceptors(
     FileInterceptor('image', {
       storage: multerMemoryStorage,
@@ -88,19 +72,21 @@ export class StoreController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all stores with pagination' })
-  @ApiResponse({ status: 200, description: 'Stores retrieved successfully' })
   async getAll(
     @Query() query: StoreQueryDto,
   ): Promise<ResponseResult<StoreOrmEntity>> {
     return await this._service.getAll(query);
   }
 
+  @Get('user')
+  async getAllUser(
+    @User('id') userId: number,
+    @Query() query: StoreQueryDto,
+  ): Promise<ResponseResult<UserOrmEntity>> {
+    return await this._service.getAllUser(userId, query);
+  }
+
   @Get(':id')
-  @ApiOperation({ summary: 'Get store by ID' })
-  @ApiParam({ name: 'id', description: 'Store ID' })
-  @ApiResponse({ status: 200, description: 'Store retrieved successfully' })
-  @ApiResponse({ status: 404, description: 'Store not found' })
   async getOne(
     @Param('id') id: number,
   ): Promise<ResponseResult<StoreOrmEntity>> {
@@ -108,10 +94,6 @@ export class StoreController {
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update store by ID' })
-  @ApiParam({ name: 'id', description: 'Store ID' })
-  @ApiResponse({ status: 200, description: 'Store updated successfully' })
-  @ApiResponse({ status: 404, description: 'Store not found' })
   async update(
     @Param('id') id: number,
     @Body() body: UpdateStoreDto,
@@ -120,11 +102,12 @@ export class StoreController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete store by ID' })
-  @ApiParam({ name: 'id', description: 'Store ID' })
-  @ApiResponse({ status: 200, description: 'Store deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Store not found' })
   async delete(@Param('id') id: number): Promise<void> {
     return await this._service.delete(id);
+  }
+
+  @Delete('user/:id')
+  async deleteUser(@Param('id') id: number): Promise<void> {
+    return await this._service.deleteUser(id);
   }
 }

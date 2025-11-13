@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LaundryMachineOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/laundry-machine.orm';
+import { WashingMachineOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/washing-machine.orm';
+import { WashingMachineDetailOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/washing-machine-detail.orm';
 import { LaundryMachineService } from './services/laundry-machine.service';
 import { LaundryMachineController } from './controllers/laundry-machine.controller';
 import { LAUNDRY_MACHINE_SERVICE } from '@src/common/constants/inject-key';
@@ -9,7 +10,8 @@ import { ILaundryMachineServiceInterface } from './interfaces/service.interface'
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      LaundryMachineOrmEntity,
+      WashingMachineOrmEntity,
+      WashingMachineDetailOrmEntity,
     ])
   ],
   controllers: [LaundryMachineController],

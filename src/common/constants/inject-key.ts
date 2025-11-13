@@ -16,7 +16,7 @@ export const IMAGE_ALLOW_MIME_TYPE = [
 ];
 
 export const OTP_LENGTH = 6;
-export const E_COMMERCE = 'E';
+export const E_COMMERCE = 'BL';
 export const MIN_GENERATE_CODE_LENGTH = 1;
 export const MAX_GENERATE_CODE_LENGTH = 6;
 

@@ -82,8 +82,24 @@ export class BannerService implements IBannerServiceInterface {
 
     const [data, total] = await queryBuilder.getManyAndCount();
 
+    const mappedData = data.map((banner) => {
+      // Check if the user has a profile and an image filename
+      if (banner.file_banner) {
+        const data = {
+          ...banner,
+          image_url: this.amazonS3ServiceKey.getCloudFrontImageUrl(
+            banner?.file_banner ?? '',
+          ),
+        };
+
+        return data;
+      }
+
+      return banner;
+    });
+
     return {
-      data,
+      data: mappedData,
       pagination: {
         total,
         total_pages: Math.ceil(total / limit),
@@ -102,7 +118,14 @@ export class BannerService implements IBannerServiceInterface {
       throw new Error('Banner not found');
     }
 
-    return banner;
+    const data = {
+      ...banner,
+      image_url: this.amazonS3ServiceKey.getCloudFrontImageUrl(
+        banner?.file_banner ?? '',
+      ),
+    };
+
+    return data;
   }
 
   async update(

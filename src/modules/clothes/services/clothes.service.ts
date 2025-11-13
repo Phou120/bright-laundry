@@ -7,6 +7,7 @@ import { ResponseResult } from '@src/common/infrastructure/pagination/pagination
 import { CreateClothesDto } from '../dtos/create.dto';
 import { ClothesQueryDto } from '../dtos/query/query.dto';
 import { UpdateClothesDto } from '../dtos/update.dto';
+import { DomainException } from '@src/common/exceptions/domain.exception';
 
 @Injectable()
 export class ClothesService implements IClothesServiceInterface {
@@ -83,8 +84,13 @@ export class ClothesService implements IClothesServiceInterface {
 
     const [data, total] = await queryBuilder.getManyAndCount();
 
+    const mapDate = data.map((item) => {
+      item.price = Number(item.price);
+      return item;
+    });
+
     return {
-      data,
+      data: mapDate,
       pagination: {
         total,
         total_pages: Math.ceil(total / limit),
@@ -100,8 +106,10 @@ export class ClothesService implements IClothesServiceInterface {
     });
 
     if (!clothes) {
-      throw new Error('Clothes not found');
+      throw new DomainException('Clothes not found', 404);
     }
+
+    clothes.price = Number(clothes.price);
 
     return clothes;
   }
@@ -120,7 +128,7 @@ export class ClothesService implements IClothesServiceInterface {
     });
 
     if (!clothes) {
-      throw new Error('Clothes not found');
+      throw new DomainException('Clothes not found', 404);
     }
 
     Object.assign(clothes, body);
@@ -139,7 +147,7 @@ export class ClothesService implements IClothesServiceInterface {
     });
 
     if (!clothes) {
-      throw new Error('Clothes not found');
+      throw new DomainException('Clothes not found', 404);
     }
 
     await repository.softDelete(id);

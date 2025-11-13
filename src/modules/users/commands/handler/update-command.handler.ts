@@ -14,8 +14,6 @@ import { DataSource, EntityManager } from 'typeorm';
 import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
 import { _checkColumnDuplicate } from '@src/common/utils/check-column-duplicate-orm.util';
 import { findOneOrFail } from '@src/common/utils/fine-one-orm.utils';
-import { RoleOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/role.orm';
-import { PermissionOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/permission.orm';
 import { DomainException } from '@src/common/exceptions/domain.exception';
 import { IWriteUserProfileRepository } from '../../interfaces/user-profile.interface';
 import { UserProfileOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/user-profile.orm';
@@ -76,27 +74,27 @@ export class UpdateHandler
           command.id,
         );
 
-        for (const role of command.body.roles) {
-          await findOneOrFail(
-            manager,
-            RoleOrmEntity,
-            {
-              id: role,
-            },
-            `Role ${role}`,
-          );
-        }
+        // for (const role of command.body.roles) {
+        //   await findOneOrFail(
+        //     manager,
+        //     RoleOrmEntity,
+        //     {
+        //       id: role,
+        //     },
+        //     `Role ${role}`,
+        //   );
+        // }
 
-        for (const permission of command.body.permissions) {
-          await findOneOrFail(
-            manager,
-            PermissionOrmEntity,
-            {
-              id: permission,
-            },
-            `Permission ${permission}`,
-          );
-        }
+        // for (const permission of command.body.permissions) {
+        //   await findOneOrFail(
+        //     manager,
+        //     PermissionOrmEntity,
+        //     {
+        //       id: permission,
+        //     },
+        //     `Permission ${permission}`,
+        //   );
+        // }
         const user = await this._write.update(
           command.id,
           command.body,

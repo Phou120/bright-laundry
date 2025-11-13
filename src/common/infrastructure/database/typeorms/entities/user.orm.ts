@@ -16,6 +16,7 @@ import { RoleOrmEntity } from './role.orm';
 import { UserHasPermissionOrmEntity } from './user-has-permission.orm';
 import { UserProfileOrmEntity } from './user-profile.orm';
 import { StoreUserOrmEntity } from './store-user.orm';
+import { WashingMachineOrmEntity } from './washing-machine.orm';
 
 @Entity('users')
 export class UserOrmEntity {
@@ -92,4 +93,10 @@ export class UserOrmEntity {
 
   @OneToMany(() => StoreUserOrmEntity, (storeUser) => storeUser.user)
   store_users: Relation<StoreUserOrmEntity[]>;
+
+  @OneToMany(
+    () => WashingMachineOrmEntity,
+    (washingMachine) => washingMachine.user,
+  )
+  washing_machines: Relation<WashingMachineOrmEntity[]>;
 }

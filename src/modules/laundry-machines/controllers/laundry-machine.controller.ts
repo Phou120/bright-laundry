@@ -12,14 +12,19 @@ import {
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { LAUNDRY_MACHINE_SERVICE } from '@src/common/constants/inject-key';
 import { ILaundryMachineServiceInterface } from '../interfaces/service.interface';
-import { LaundryMachineOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/laundry-machine.orm';
+import { WashingMachineOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/washing-machine.orm';
+import { WashingMachineDetailOrmEntity } from '@src/common/infrastructure/database/typeorms/entities/washing-machine-detail.orm';
 import { ResponseResult } from '@src/common/infrastructure/pagination/pagination.interface';
-import { CreateLaundryMachineDto } from '../dtos/create.dto';
+import {
+  CreateLaundryMachineDto,
+  CreateWashingMachineDetailDto,
+} from '../dtos/create.dto';
 import { LaundryMachineQueryDto } from '../dtos/query/query.dto';
 import { UpdateLaundryMachineDto } from '../dtos/update.dto';
+import { User } from '@src/common/decorator/user.decorator';
 
-@ApiTags('laundry-machines')
-@Controller('laundry-machines')
+@ApiTags('washing-machines')
+@Controller('washing-machines')
 export class LaundryMachineController {
   constructor(
     @Inject(LAUNDRY_MACHINE_SERVICE)
@@ -27,68 +32,106 @@ export class LaundryMachineController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new laundry machine' })
-  @ApiResponse({
-    status: 201,
-    description: 'Laundry machine created successfully',
-  })
-  @ApiResponse({ status: 400, description: 'Bad request' })
   async create(
+    @User('id') userId: number,
     @Body() body: CreateLaundryMachineDto,
-  ): Promise<ResponseResult<LaundryMachineOrmEntity>> {
-    return await this._service.create(body);
+  ): Promise<ResponseResult<WashingMachineOrmEntity>> {
+    return await this._service.create(userId, body);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all laundry machines with pagination' })
+  @ApiOperation({
+    summary: 'Get all washing machine orders with pagination and filtering',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Laundry machines retrieved successfully',
+    description: 'Washing machine orders retrieved successfully',
   })
   async getAll(
     @Query() query: LaundryMachineQueryDto,
-  ): Promise<ResponseResult<LaundryMachineOrmEntity>> {
+  ): Promise<ResponseResult<WashingMachineOrmEntity>> {
     return await this._service.getAll(query);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get laundry machine by ID' })
-  @ApiParam({ name: 'id', description: 'Laundry machine ID' })
+  @ApiOperation({ summary: 'Get washing machine order by ID' })
+  @ApiParam({ name: 'id', description: 'Washing machine order ID' })
   @ApiResponse({
     status: 200,
-    description: 'Laundry machine retrieved successfully',
+    description: 'Washing machine order retrieved successfully',
   })
-  @ApiResponse({ status: 404, description: 'Laundry machine not found' })
+  @ApiResponse({ status: 404, description: 'Washing machine order not found' })
   async getOne(
     @Param('id') id: number,
-  ): Promise<ResponseResult<LaundryMachineOrmEntity>> {
-    return await this._service.getOne(id);
+    @Query('include') include?: string,
+  ): Promise<ResponseResult<WashingMachineOrmEntity>> {
+    return await this._service.getOne(id, include);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update laundry machine by ID' })
-  @ApiParam({ name: 'id', description: 'Laundry machine ID' })
+  @ApiOperation({ summary: 'Update washing machine order by ID' })
+  @ApiParam({ name: 'id', description: 'Washing machine order ID' })
   @ApiResponse({
     status: 200,
-    description: 'Laundry machine updated successfully',
+    description: 'Washing machine order updated successfully',
   })
-  @ApiResponse({ status: 404, description: 'Laundry machine not found' })
+  @ApiResponse({ status: 404, description: 'Washing machine order not found' })
   async update(
     @Param('id') id: number,
     @Body() body: UpdateLaundryMachineDto,
-  ): Promise<ResponseResult<LaundryMachineOrmEntity>> {
+  ): Promise<ResponseResult<WashingMachineOrmEntity>> {
     return await this._service.update(id, body);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete laundry machine by ID' })
-  @ApiParam({ name: 'id', description: 'Laundry machine ID' })
+  @ApiOperation({ summary: 'Delete washing machine order by ID' })
+  @ApiParam({ name: 'id', description: 'Washing machine order ID' })
   @ApiResponse({
     status: 200,
-    description: 'Laundry machine deleted successfully',
+    description: 'Washing machine order deleted successfully',
   })
-  @ApiResponse({ status: 404, description: 'Laundry machine not found' })
+  @ApiResponse({ status: 404, description: 'Washing machine order not found' })
   async delete(@Param('id') id: number): Promise<void> {
     return await this._service.delete(id);
+  }
+
+  // Detail endpoints
+  @Post(':id/details')
+  @ApiOperation({ summary: 'Add detail to washing machine order' })
+  @ApiParam({ name: 'id', description: 'Washing machine order ID' })
+  @ApiResponse({
+    status: 201,
+    description: 'Detail added successfully',
+  })
+  async addDetail(
+    @Param('id') id: number,
+    @Body() detailData: CreateWashingMachineDetailDto,
+  ): Promise<ResponseResult<WashingMachineDetailOrmEntity>> {
+    return await this._service.addDetail(id, detailData);
+  }
+
+  @Put('details/:detailId')
+  @ApiOperation({ summary: 'Update washing machine detail' })
+  @ApiParam({ name: 'detailId', description: 'Detail ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Detail updated successfully',
+  })
+  async updateDetail(
+    @Param('detailId') detailId: number,
+    @Body() detailData: any,
+  ): Promise<ResponseResult<WashingMachineDetailOrmEntity>> {
+    return await this._service.updateDetail(detailId, detailData);
+  }
+
+  @Delete('details/:detailId')
+  @ApiOperation({ summary: 'Remove washing machine detail' })
+  @ApiParam({ name: 'detailId', description: 'Detail ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Detail removed successfully',
+  })
+  async removeDetail(@Param('detailId') detailId: number): Promise<void> {
+    return await this._service.removeDetail(detailId);
   }
 }

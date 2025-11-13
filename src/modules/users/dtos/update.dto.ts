@@ -4,4 +4,6 @@ import { CreateDto } from './create.dto';
 export class UpdateDto extends OmitType(CreateDto, [
   'password',
   'confirm_password',
+  'roles',
+  'permissions',
 ] as const) {}

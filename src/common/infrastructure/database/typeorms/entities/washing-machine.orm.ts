@@ -14,6 +14,7 @@ import {
 import { StoreOrmEntity } from './store.orm';
 import { CustomerOrmEntity } from './customer.orm';
 import { WashingMachineDetailOrmEntity } from './washing-machine-detail.orm';
+import { UserOrmEntity } from './user.orm';
 
 @Entity('washing_machines')
 export class WashingMachineOrmEntity {
@@ -39,6 +40,16 @@ export class WashingMachineOrmEntity {
   })
   @JoinColumn({ name: 'customer_id' })
   customer: Relation<CustomerOrmEntity>;
+
+  @Index()
+  @Column({ type: 'int', unsigned: true, nullable: true })
+  created_by?: number;
+  @ManyToOne(() => UserOrmEntity, (user) => user.washing_machines, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'created_by' })
+  user: Relation<UserOrmEntity>;
 
   @Index()
   @Column({ type: 'timestamp', nullable: true })

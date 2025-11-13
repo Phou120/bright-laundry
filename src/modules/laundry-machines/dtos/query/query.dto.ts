@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsNumber, IsIn } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsIn, IsDate } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -24,20 +24,56 @@ export class LaundryMachineQueryDto {
   limit?: number = 10;
 
   @ApiPropertyOptional({
-    description: 'Search term for laundry machine name',
-    example: 'washing machine',
+    description: 'Search term',
+    example: 'washing',
   })
   @IsOptional()
   @IsString()
   search?: string;
 
   @ApiPropertyOptional({
-    description: 'Filter by laundry machine name',
-    example: 'Industrial Washer',
+    description: 'Filter by store ID',
+    example: 1,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Transform(({ value }) => parseInt(value))
+  store_id?: number;
+
+  @ApiPropertyOptional({
+    description: 'Filter by customer ID',
+    example: 1,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Transform(({ value }) => parseInt(value))
+  customer_id?: number;
+
+  @ApiPropertyOptional({
+    description: 'Filter by washing date from',
+    example: '2024-01-01',
+  })
+  @IsOptional()
+  @IsDate()
+  @Transform(({ value }) => value ? new Date(value) : undefined)
+  washing_date_from?: Date;
+
+  @ApiPropertyOptional({
+    description: 'Filter by washing date to',
+    example: '2024-01-31',
+  })
+  @IsOptional()
+  @IsDate()
+  @Transform(({ value }) => value ? new Date(value) : undefined)
+  washing_date_to?: Date;
+
+  @ApiPropertyOptional({
+    description: 'Include relations',
+    example: 'store,customer,details',
   })
   @IsOptional()
   @IsString()
-  name?: string;
+  include?: string;
 
   @ApiPropertyOptional({
     description: 'Sort field',
